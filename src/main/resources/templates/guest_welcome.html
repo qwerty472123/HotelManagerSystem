@@ -65,11 +65,15 @@
                     th:action="@{/guest/addOrder}">
 
                         <h5>房间类型</h5>
-                        <div style="flex-direction: row" class="wrapper">
-                            <label th:each="item,status : ${roomTypes}" class="mdl-radio mdl-js-radio mdl-js-ripple-effect" th:for="'option-'+${status.count}">
-                                <input type="radio" th:id="'option-'+${status.count}" class="mdl-radio__button" name="roomType">
-                                <span th:text="${item}" class="mdl-radio__label"></span>
-                            </label>
+                        <div style="flex-direction: column" class="wrapper">
+                            <p th:each="item,status : ${roomTypes}">
+                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect"
+                                       th:for="'option-'+${status.count}">
+                                    <input type="radio" th:id="'option-'+${status.count}" class="mdl-radio__button"
+                                           name="roomType">
+                                    <span th:text="${item}" class="mdl-radio__label"></span>
+                                </label>
+                            </p>
                         </div>
 
 
