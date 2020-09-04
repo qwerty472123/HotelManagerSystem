@@ -87,6 +87,13 @@
             <artifactId>material-design-lite</artifactId>
             <version>1.3.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.webjars.bower/echarts -->
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>echarts</artifactId>
+            <version>4.1.0-release</version>
+        </dependency>
+
     </dependencies>
 
     <build>

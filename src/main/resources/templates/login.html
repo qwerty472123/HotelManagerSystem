@@ -3,34 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/webjars/bootstrap/3.3.5/css/bootstrap.css" />
-    <link rel="stylesheet" href="/webjars/material-design-lite/1.3.0/material.css" />
-    <script src="/webjars/jquery/3.2.1/dist/jquery.js"></script>
+    <link rel="stylesheet" href="@{/webjars/bootstrap/3.3.5/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/webjars/material-design-lite/1.3.0/material.min.css}"/>
+    <!-- Square card -->
+    <style>
+        .demo-card-square.mdl-card {
+            width: 256px;
+            height: 256px;
+        }
 
+        body {
+            height: 100%;
+            width: 100%;
+        }
 
+        .wrapper {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
 
-
+        .big {
+            font-size: large;
+        }
+    </style>
 </head>
 <body>
 
-<!-- Simple Textfield -->
-<form action="#">
-    <div class="mdl-textfield mdl-js-textfield">
-        <input class="mdl-textfield__input" type="text" id="sample1">
-        <label class="mdl-textfield__label" for="sample1">Text...</label>
-    </div>
-</form>
-<!-- Numeric Textfield -->
-<form action="#">
-    <div class="mdl-textfield mdl-js-textfield">
-        <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample2">
-        <label class="mdl-textfield__label" for="sample2">Number...</label>
-        <span class="mdl-textfield__error">Input is not a number!</span>
-    </div>
-</form>
+<div class="wrapper">
+    <h2>Hotel 用户登录</h2>
+
+    <form style="padding: 20px" class="demo-card-square mdl-card mdl-shadow--2dp wrapper" method="post"
+          th:action="@{/prelogin}">
+        <!-- Simple Textfield -->
+        <div class="mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="text" id="sample1">
+            <label class="mdl-textfield__label" for="sample1">用户名</label>
+        </div>
+        <br>
+        <!-- Numeric Textfield -->
+        <div class="mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="password" id="sample2">
+            <label class="mdl-textfield__label" for="sample2">密码</label>
+        </div>
+        <br>
+        <!-- Primary-colored flat button -->
+        <div>
+            <button type="submit"
+                    class="big mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
+                登 &nbsp; 录
+            </button>
+            &nbsp;&nbsp;
+            <button class="big mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect">
+                注 &nbsp; 册
+            </button>
+        </div>
+    </form>
 
 
-<script type="text/javascript" th:href="@{webjars/material-design-lite/1.3.0/material.min.js}"></script>
+</div>
+
+
+<script th:src="@{webjars/material-design-lite/1.3.0/material.min.js}"></script>
 
 </body>
 </html>
