@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class ErrorController {
-    @GetMapping("/error")
+    @GetMapping(path = "/error")
     @ResponseBody
     public String showErrorPage() {
         return "This is a error page!";
