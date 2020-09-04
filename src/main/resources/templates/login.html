@@ -14,10 +14,6 @@
             src: url(/static/mdl/icons.woff2) format('woff2'),
             url(/static/mdl/icons.woff) format('woff');
         }
-        .ademo-card-square.mdl-card {
-            width: 256px;
-            height: 256px;
-        }
 
         body {
             height: 100%;
@@ -32,10 +28,6 @@
             justify-content: center;
             flex-direction: column;
         }
-
-        .big {
-            font-size: large;
-        }
     </style>
 </head>
 <body>
@@ -44,16 +36,20 @@
     <h2>Hotel 用户登录</h2>
 
     <form style="padding: 20px" class="demo-card-square mdl-card mdl-shadow--2dp" method="post"
-          th:action="@{/prelogin}">
+          th:action="@{/user/login}">
+        <div th:if="${errorId != null}" th:switch="${errorId}">
+            <span th:case="-1">用户不存在</span>
+            <span th:case="-2">密码错误</span>
+        </div>
         <!-- Simple Textfield -->
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" id="sample1">
+            <input name="username" class="mdl-textfield__input" type="text" id="sample1">
             <label class="mdl-textfield__label" for="sample1">用户名</label>
         </div>
         <br>
         <!-- Numeric Textfield -->
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="password" id="sample2">
+            <input name="password" class="mdl-textfield__input" type="password" id="sample2">
             <label class="mdl-textfield__label" for="sample2">密码</label>
         </div>
         <br>
@@ -69,12 +65,10 @@
             </button>
         </div>
     </form>
-
-
 </div>
 
 
-<script th:src="@{webjars/material-design-lite/1.3.0/material.min.js}"></script>
+<script th:src="@{/webjars/material-design-lite/1.3.0/material.min.js}"></script>
 
 </body>
 </html>
