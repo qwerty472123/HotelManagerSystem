@@ -22,6 +22,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         if(userId != null) {
             User user = userService.getUser(userId);
             if (user != null) {
+                if (request.getPathInfo().equals("/user/logout")) return true;
                 if (request.getPathInfo().startsWith("/" + EnumUtil.getRoleDesc(user.getRole())))
                     return true;
             }
