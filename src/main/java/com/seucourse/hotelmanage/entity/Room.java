@@ -5,16 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Emp {
+public class Room {
     private Integer id;
-    private Date hireDate;
-    private Date birthday;
-    private Integer gender; // 0 - male; 1 - female
-    private String phone;
+    private String name;
+    private Boolean clean;
 }

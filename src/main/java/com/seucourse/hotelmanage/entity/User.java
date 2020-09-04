@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Hr {
-
-    private Integer empId;
-
-    private String empPass;
+public class User {
+    private Integer id;
+    private String username;
+    private String password;
+    private Integer role; // guest / frontEmp / backEmp / manager
+    private String name;
 }

@@ -11,10 +11,10 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Emp {
+public class Order {
     private Integer id;
-    private Date hireDate;
-    private Date birthday;
-    private Integer gender; // 0 - male; 1 - female
-    private String phone;
+    private Integer roomId;
+    private Integer userId;
+    private Date startDate, endDate;
+    private Integer status;
 }

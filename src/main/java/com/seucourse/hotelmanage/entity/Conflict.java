@@ -11,10 +11,8 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Emp {
+public class Conflict {
     private Integer id;
-    private Date hireDate;
-    private Date birthday;
-    private Integer gender; // 0 - male; 1 - female
-    private String phone;
+    private Integer roomId;
+    private Date date;
 }
