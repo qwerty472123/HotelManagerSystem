@@ -7,13 +7,13 @@ import com.seucourse.hotelmanage.util.PasswordEncryptUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("userService")
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
     @Override
     public Integer login(User user) {
-        User userInDB = userMapper.selectUserByUserName(user.getUsername());
+        User userInDB = userMapper.selectUser(User.builder().username(user.getUsername()).build());
         if (userInDB == null) return -1; // no such user
         if (!PasswordEncryptUtil.check(user.getPassword(), userInDB.getPassword())) return -2; // error pwd
         user.setRole(userInDB.getRole());
@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Integer register(User user) {
-        User tmp = userMapper.selectUserByUserName(user.getUsername());
+        User tmp = userMapper.selectUser(User.builder().username(user.getUsername()).build());
         if (tmp != null) return -1; // has same name
         if (user.getName() == null || user.getName().length() == 0) return -2; // No name
         if (user.getUsername() == null || user.getUsername().length() < 3) return -3; // Too short username
@@ -35,5 +35,10 @@ public class UserServiceImpl implements UserService {
         user.setPassword(PasswordEncryptUtil.encrypt(user.getPassword()));
         userMapper.insertUser(user);
         return 0;
+    }
+
+    @Override
+    public User getUser(Integer userId) {
+        return userMapper.selectUser(User.builder().id(userId).build());
     }
 }

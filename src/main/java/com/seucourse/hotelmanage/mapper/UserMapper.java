@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.*;
 @Mapper
 public interface UserMapper {
     @SelectProvider(type = UserSQLProvider.class, method = "createSelectSQL")
-    User selectUserByUserName(String userName);
+    User selectUser(User user);
 
     @Delete("DELETE FROM user WHERE id = #{id}")
     void deleteUser(User user);
@@ -16,5 +16,5 @@ public interface UserMapper {
     void insertUser(User user);
 
     @SelectProvider(type = UserSQLProvider.class, method = "createUpdateSQL")
-    void UpdateUser(User user);
+    void updateUser(User user);
 }
