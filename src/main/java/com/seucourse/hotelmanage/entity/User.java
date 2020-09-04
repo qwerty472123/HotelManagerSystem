@@ -1,5 +1,6 @@
 package com.seucourse.hotelmanage.entity;
 
+import com.seucourse.hotelmanage.util.EnumUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,4 +16,10 @@ public class User {
     private String password;
     private Integer role; // guest / frontEmp / backEmp / manager
     private String name;
+    public String getRoleDesc() {
+        return EnumUtil.getRoleDesc(role);
+    }
+    public String getRoleDescCN() {
+        return EnumUtil.getRoleDescCN(role);
+    }
 }

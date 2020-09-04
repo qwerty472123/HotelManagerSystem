@@ -15,4 +15,18 @@ public class EnumUtil {
                 return "error";
         }
     }
+    public static String getRoleDescCN(Integer id) {
+        switch (id) {
+            case 0:
+                return "来宾";
+            case 1:
+                return "前台";
+            case 2:
+                return "后勤";
+            case 3:
+                return "经理";
+            default:
+                return "未知";
+        }
+    }
 }

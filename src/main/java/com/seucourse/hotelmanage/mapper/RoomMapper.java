@@ -11,7 +11,7 @@ import java.util.List;
 public interface RoomMapper {
     @Select("SELECT id, name, clean, type FROM room WHERE id NOT IN (" +
             "SELECT roomId FROM conflict WHERE date BETWEEN #{startDate} AND #{endDate}" +
-            ") AND type = #{type}")
+            ") AND type = #{type} LIMIT 1")
     Room selectRoomByTypeAndTime(String type, Date startDate, Date endDate);
 
     @Insert("INSERT INTO room(name, clean, type) VALUES (#{name}, #{clean}, #{type})")
