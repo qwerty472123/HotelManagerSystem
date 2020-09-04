@@ -59,10 +59,10 @@ public class GuestController {
         return "guest_welcome";
     }
 
-    @GetMapping(path = "/addOrder")
+    @PostMapping(path = "/addOrder")
     public @ResponseBody String addOrder(Model model, String roomType, Date startDate, Date endDate){
-
         Room room = roomService.getRoomByTypeAndTime(roomType,startDate,endDate);
+        System.out.println("type + " + roomType);
         String msg="success";
         if(null == room){
             msg="所选时间内无此类型的可用房间!";
@@ -73,33 +73,20 @@ public class GuestController {
                 .roomId(room.getId())
                 .startDate(startDate)
                 .endDate(endDate)
+                .status(1)
                 .build();
         orderService.insertOrder(order);
-
-        //TODO 从startDate到endDate添加conflict记录
 
         return msg;
     }
 
 
-
-
     @GetMapping(path = "/showList")
     public String showRecList(Model model){
 
-
-
-
-
+        Integer userId=((User)model.getAttribute("curUser")).getId();
         model.addAttribute("tab",2);
-
-
-
-
-
-
-
-
+        model.addAttribute("orderList",orderService.queryOrdersByUserId(userId));
         return "guest_welcome";
     }
 

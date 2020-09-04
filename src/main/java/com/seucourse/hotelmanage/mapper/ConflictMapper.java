@@ -15,7 +15,7 @@ public interface ConflictMapper {
     @Delete("DELETE FROM conflict WHERE date = #{date} AND roomId = #{roomId}")
     void deleteConflict(Conflict conflict);
 
-    @Insert("INSERT INTO conflict(roomid, date) VALUES (#{roomId}, #{date})")
+    @Insert("INSERT INTO conflict(roomId, date) VALUES (#{roomId}, #{date})")
     @SelectKey(keyColumn = "id", keyProperty = "id", before = false,
             statement = "SELECT LAST_INSERT_ID()", resultType = Integer.class)
     void insertConflict(Conflict conflict);

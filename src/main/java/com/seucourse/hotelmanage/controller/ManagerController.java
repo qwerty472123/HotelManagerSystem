@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping(path = "/emp")
-public class EmpController {
+public class ManagerController {
     @Autowired
     private EmpService empService;
 
