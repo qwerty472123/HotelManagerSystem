@@ -17,6 +17,8 @@ public class UserServiceImpl implements UserService {
         if (userInDB == null) return -1; // no such user
         if (!PasswordEncryptUtil.check(user.getPassword(), userInDB.getPassword())) return -2; // error pwd
         user.setRole(userInDB.getRole());
+        user.setId(userInDB.getId());
+        user.setName(userInDB.getName());
         return 0;
     }
 

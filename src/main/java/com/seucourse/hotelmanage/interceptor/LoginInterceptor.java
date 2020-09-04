@@ -19,6 +19,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();
         Integer userId = (Integer) session.getAttribute("userId");
+        System.out.println("page for" + userId);
         if(userId != null) {
             User user = userService.getUser(userId);
             if (user != null) {
