@@ -36,4 +36,5 @@ public class UserController {
         session.removeAttribute("userId");
         return "redirect:/";
     }
+
 }

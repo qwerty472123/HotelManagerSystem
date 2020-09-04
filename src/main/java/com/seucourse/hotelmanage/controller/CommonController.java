@@ -15,12 +15,14 @@ import java.util.Date;
 
 @ControllerAdvice
 public class CommonController {
+
     @InitBinder
     public void initBinder(WebDataBinder dataBinder) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         format.setLenient(true);
         dataBinder.registerCustomEditor(Date.class, new CustomDateEditor(format, true));
     }
+
     @ModelAttribute
     public void populateUserName(HttpServletRequest request, Model model) {
         model.addAttribute("curUser", request.getAttribute("curUser"));
