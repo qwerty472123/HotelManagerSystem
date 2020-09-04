@@ -28,6 +28,6 @@ public interface RoomMapper {
     @Delete("DELETE FROM room WHERE id = #{roomId}")
     void deleteRoom(Integer roomId);
 
-    @Select("SELECT type FROM room")
+    @Select("SELECT DISTINCT type FROM room")
     List<String> selectTypes();
 }
