@@ -13,6 +13,7 @@ import java.util.Date;
 @Builder
 public class Emp {
     private Integer id;
+    private Integer userId;
     private Date hireDate;
     private Date birthday;
     private Integer gender; // 0 - male; 1 - female

@@ -8,6 +8,6 @@ import java.util.Date;
 
 @Mapper
 public interface RoomMapper {
-    //@Select("")
-    //Room getRoomByTypeAndTime(String type, Date )
+    @Select("")
+    Room getRoomByTypeAndTime(String type, Date startDate, Date endDate);
 }
