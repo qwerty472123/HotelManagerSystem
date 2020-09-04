@@ -4,7 +4,7 @@ import com.seucourse.hotelmanage.entity.Order;
 import org.apache.ibatis.jdbc.SQL;
 
 public class OrderSQLProvider {
-    public String createSelectAllSQL(Order order){
+    public String createSelectSQL(Order order){
         return new SQL(){{
             SELECT("roomId, userId, startDate, endDate, status");
             FROM("order");

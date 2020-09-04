@@ -29,8 +29,6 @@ public class GuestController {
     @Autowired
     private OrderService orderService;
 
-
-
     @GetMapping(path = "register")
     public String preRegister() {
         return "guest_register";
