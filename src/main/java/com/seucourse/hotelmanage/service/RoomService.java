@@ -7,8 +7,14 @@ import java.util.List;
 
 public interface RoomService {
     void addRoom(Room room);
+
     List<Room> listRoom(Room room);
+
     void updateRoom(Room room);
+
     List<String> listRoomTypes();
+
     Room getRoomByTypeAndTime(String type, Date startDate, Date endDate);
+
+    void deleteRoom(Integer roomId);
 }

@@ -2,10 +2,7 @@ package com.seucourse.hotelmanage.mapper;
 
 import com.seucourse.hotelmanage.entity.Conflict;
 import com.seucourse.hotelmanage.entity.Emp;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -19,5 +16,7 @@ public interface ConflictMapper {
     void deleteConflict(Conflict conflict);
 
     @Insert("INSERT INTO conflict(roomid, date) VALUES (#{roomId}, #{date})")
+    @SelectKey(keyColumn = "id", keyProperty = "id", before = false,
+            statement = "SELECT LAST_INSERT_ID()", resultType = Integer.class)
     void insertConflict(Conflict conflict);
 }

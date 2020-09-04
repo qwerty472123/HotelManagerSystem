@@ -16,6 +16,8 @@ public interface UserMapper {
     void selectIdByUserId(Integer userId);
 
     @Insert("INSERT INTO user(username, password, role, name) VALUES (#{username}, #{password}, #{role}, #{name})")
+    @SelectKey(keyColumn = "id", keyProperty = "id", before = false,
+            statement = "SELECT LAST_INSERT_ID()", resultType = Integer.class)
     void insertUser(User user);
 
     @SelectProvider(type = UserSQLProvider.class, method = "createUpdateSQL")

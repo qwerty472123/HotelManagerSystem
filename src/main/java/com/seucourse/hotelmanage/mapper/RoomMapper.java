@@ -15,6 +15,8 @@ public interface RoomMapper {
     Room selectRoomByTypeAndTime(String type, Date startDate, Date endDate);
 
     @Insert("INSERT INTO room(name, clean, type) VALUES (#{name}, #{clean}, #{type})")
+    @SelectKey(keyColumn = "id", keyProperty = "id", before = false,
+            statement = "SELECT LAST_INSERT_ID()", resultType = Integer.class)
     void insertRoom(Room room);
 
     @SelectProvider(type = RoomSQLProvider.class, method = "createSelectSQL")
@@ -22,6 +24,9 @@ public interface RoomMapper {
 
     @UpdateProvider(type = RoomSQLProvider.class, method = "createUpdateSQL")
     void updateRoom(Room room);
+
+    @Delete("DELETE FROM room WHERE id = #{roomId}")
+    void deleteRoom(Integer roomId);
 
     @Select("SELECT type FROM room")
     List<String> selectTypes();

@@ -42,4 +42,9 @@ public class RoomServiceImpl implements RoomService {
     public Room getRoomByTypeAndTime(String type, Date startDate, Date endDate) {
         return roomMapper.selectRoomByTypeAndTime(type, startDate, endDate);
     }
+
+    @Override
+    public void deleteRoom(Integer roomId) {
+        roomMapper.deleteRoom(roomId);
+    }
 }
