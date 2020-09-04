@@ -19,16 +19,16 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();
         Integer userId = (Integer) session.getAttribute("userId");
-        System.out.println("page for" + userId);
         if(userId != null) {
             User user = userService.getUser(userId);
             if (user != null) {
-                if (request.getPathInfo().equals("/user/logout")) return true;
-                if (request.getPathInfo().startsWith("/" + EnumUtil.getRoleDesc(user.getRole())))
+                System.out.println("path for " + request.getServletPath());
+                if (request.getServletPath().equals("/user/logout")) return true;
+                if (request.getServletPath().startsWith("/" + EnumUtil.getRoleDesc(user.getRole())))
                     return true;
             }
         }
-        request.getRequestDispatcher("/").forward(request, response);
+        response.sendRedirect("/");
         return false;
     }
 

@@ -25,6 +25,7 @@ public class MyMvcConfiguration implements WebMvcConfigurer {
                 .excludePathPatterns("/guest/register")
                 .excludePathPatterns("/dev/**")
                 .excludePathPatterns("/static/**")
+                .excludePathPatterns("/error")
                 .excludePathPatterns("/webjars/**");
     }
 
