@@ -64,19 +64,25 @@
                     <form style="padding: 20px" class="demo-card-square mdl-card mdl-shadow--2dp" method="post"
                     th:action="@{/guest/addOrder}">
 
-                        <label th:each="item,status : ${roomTypes}" class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
-                            <input type="radio" id="option-1" class="mdl-radio__button" name="roomType" value="1" checked>
-                            <span th:text="item" class="mdl-radio__label"></span>
-                        </label>
+                        <h5>房间类型</h5>
+                        <div style="flex-direction: row" class="wrapper">
+                            <label th:each="item,status : ${roomTypes}" class="mdl-radio mdl-js-radio mdl-js-ripple-effect" th:for="'option-'+${status.count}">
+                                <input type="radio" th:id="'option-'+${status.count}" class="mdl-radio__button" name="roomType">
+                                <span th:text="${item}" class="mdl-radio__label"></span>
+                            </label>
+                        </div>
+
 
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <h5>入住日期</h5>
                             <input name="startDate" class="mdl-textfield__input" type="date" id="sample2">
-                            <label class="mdl-textfield__label" for="sample2">入住日期</label>
+                            <label class="mdl-textfield__label" for="sample2"></label>
                         </div>
 
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <h5>退住日期</h5>
                             <input name="endDate" class="mdl-textfield__input" type="date" id="sample3">
-                            <label class="mdl-textfield__label" for="sample3">退住日期</label>
+                            <label class="mdl-textfield__label" for="sample3"></label>
                         </div>
 
                         <!-- Primary-colored flat button -->
