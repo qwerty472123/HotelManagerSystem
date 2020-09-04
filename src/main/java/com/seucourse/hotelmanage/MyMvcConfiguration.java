@@ -1,6 +1,7 @@
 package com.seucourse.hotelmanage;
 
 import com.seucourse.hotelmanage.interceptor.LoginInterceptor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -18,12 +19,17 @@ public class MyMvcConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**")
+        registry.addInterceptor(loginInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns("/") // preLogin
                 .excludePathPatterns("/user/login")
                 .excludePathPatterns("/guest/register")
                 .excludePathPatterns("/dev/**")
                 .excludePathPatterns("/static/**")
                 .excludePathPatterns("/webjars/**");
+    }
+
+    @Bean
+    public LoginInterceptor loginInterceptor() {
+        return new LoginInterceptor();
     }
 }
