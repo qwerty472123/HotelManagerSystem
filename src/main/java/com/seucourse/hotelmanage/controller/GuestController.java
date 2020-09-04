@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.jws.WebParam;
-import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -36,8 +34,8 @@ public class GuestController {
     }
 
     @GetMapping(path="/")
-    public String welcome(Model model, HttpSession session){
-        model.addAttribute("name",session.getAttribute("name"));
+    public String welcome(Model model){
+        System.out.println(model.getAttribute("curUser"));
         return "guest_welcome";
     }
 }
