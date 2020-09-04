@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dept Info</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.css}"/>
+</head>
+<body>
+<h2>Dept Info</h2>
+<form th:action="@{/dept/update/}" method="post" class="form-horizontal" name="frm">
+    <div class="form-group">
+        <label for="deptId" class="col-sm-2 control-label">Dept Id:</label>
+        <div class="col-sm-10">
+            <input type="text" name="deptId" class="form-control" id="deptId" placeholder="Dept Id" readonly
+                   th:field="${dept.deptId}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="deptName" class="col-sm-2 control-label">Dept Name:</label>
+        <div class="col-sm-10">
+            <input type="text" name="deptName" class="form-control" id="deptName" placeholder="Dept Name" required
+                   th:field="${dept.deptName}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="deptStatus" class="col-sm-2 control-label">Dept Status:</label>
+        <div class="col-sm-10">
+            <select class="form-control" required name="status" id="deptStatus" th:field="${dept.status}">
+                <option value="0" th:field="${dept.status}">Removed</option>
+                <option value="1" th:field="${dept.status}">Using</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-danger">Modify</button>
+            <button type="button" onclick="history.go(-1)" class="btn btn-success">back</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    document.frm.onsubmit = function () {
+        if (confirm("Yes?")) {
+            return true;
+        } else {
+            alert("Rejected!");
+            return false;
+        }
+    }
+</script>
+</body>
+</html>

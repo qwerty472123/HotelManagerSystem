@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/hrmanager?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: aa
+  thymeleaf:
+    cache: off
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+
+mybatis:
+  type-aliases-package: com.myexample.bootwithmybatis.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

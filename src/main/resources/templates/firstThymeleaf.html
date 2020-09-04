@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>First Thymeleaf</title>
+</head>
+<body>
+Hello world!
+<br />
+<!--p  th:text="${attr1}">re</p>
+<label>hello:<input type="input" th:value="${attr1}"></label>
+<p th:text="${#strings.substring(attr1,1,3)}"></p>
+<p th:if="${#strings.contains(attr1, 'i')}">aa</p>
+<p th:each="ia : ${attr2}">
+<span th:text="${ia}"></span>
+
+</p>
+<p th:text="${#dates.format(cur)}"></p>
+
+<p th:text="${#dates.format(cur, 'yyyy-MM-dd HH:mm:ss')}"></p>
+
+
+<p th:text="${#dates.year(cur)}"></p>
+<p th:text="${#dates.month(cur)}"></p>
+<p th:text="${#dates.day(cur)}"></p>
+
+<table>
+    <thread>
+        <tr>
+            <th>No.</th>
+            <th>DeptId</th>
+            <th>DeptName</th>
+            <th>status</th>
+        </tr>
+    </thread>
+    <tbody>
+        <tr th:each="item, status : ${depts}">
+            <td th:text="${status.count}"></td>
+            <td th:text="${item.deptId}"></td>
+            <td th:text="${item.deptName}"></td>
+            <td th:text="${item.status} == 1 ? 'used' : 'removed'"></td>
+        </tr>
+    </tbody>
+</table-->
+<div>
+
+    <a th:href="@{http://www.baidu.com}">baidu</a>
+    <a th:href="@{/thy/first}">baidu</a>
+    <a th:href="@{thy/first}">baidu</a>
+    <a th:href="@{~/projectName/url}">same server different project</a>
+
+    <a th:href="@{thy/getInfo(uid = 1)}">baidu</a>
+    <a th:href="@{thy/getREST/1}">baidu</a>
+</div>
+</body>
+</html>
