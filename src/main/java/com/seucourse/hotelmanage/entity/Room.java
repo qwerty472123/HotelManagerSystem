@@ -13,4 +13,5 @@ public class Room {
     private Integer id;
     private String name;
     private Boolean clean;
+    private String type;
 }
