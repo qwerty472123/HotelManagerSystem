@@ -1,19 +1,32 @@
 package com.seucourse.hotelmanage.mapper;
 
 import com.seucourse.hotelmanage.entity.Emp;
+import com.seucourse.hotelmanage.entity.User;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 
 import java.util.List;
 
 @Mapper
 public interface EmpMapper {
-    @Insert("INSERT INTO emp(empname, gender, birthday, hiredate, deptid, job, status, empphoto) " +
-            "VALUES (#{empName}, #{gender} ,#{birthday} ,#{hireDate} ,#{deptId} ,#{job} ,#{status} ,#{empPhoto} ")
-    @SelectKey(keyColumn = "empid", keyProperty = "empId", before = false,
+
+    @Insert("INSERT INTO emp(userid, hiredate, birthday, gender, phone) " +
+            "VALUES (#{userId}, #{hireDate} ,#{birthday} ,#{gender} ,#{phone}")
+    @SelectKey(keyColumn = "id", keyProperty = "id", before = false,
             statement = "SELECT LAST_INSERT_ID()", resultType = Integer.class)
     void insertEmp(Emp emp);
 
-    @Select("SELECT empid, empname, gender, birthday, hiredate, deptid, job, status, empphoto" +
-            " FROM emp WHERE deptid = #{deptId}")
-    List<Emp> selectEmpsByDeptId(Integer deptId);
+    @Select("SELECT id, userid, hiredate, birthday, gender, phone" +
+            " FROM emp WHERE id = #{id}")
+    @Results(id = "withUsers", value = {
+            @Result(id = true, column = "id", property = "id"),
+            @Result(column = "userid", property = "userId"),
+            @Result(column = "hiredate", property = "hireDate"),
+            @Result(column = "birthday", property = "birthday"),
+            @Result(column = "gender", property = "gender"),
+            @Result(column = "phone", property = "phone"),
+            @Result(column = "id", property = "user", one = @One(select = "com.seucourse.hotelmanage.mapper.UserMapper.selectIdByUserId",
+                    fetchType = FetchType.LAZY))
+    })
+    Emp selectEmpByEmpId(Integer id);
 }

@@ -18,4 +18,5 @@ public class Emp {
     private Date birthday;
     private Integer gender; // 0 - male; 1 - female
     private String phone;
+    private User user;
 }

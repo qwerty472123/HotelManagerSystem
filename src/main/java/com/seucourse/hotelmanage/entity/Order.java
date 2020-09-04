@@ -16,5 +16,5 @@ public class Order {
     private Integer roomId;
     private Integer userId;
     private Date startDate, endDate;
-    private Integer status;
+    private Integer status; //0-被占用 1-被预定 2-空闲
 }
