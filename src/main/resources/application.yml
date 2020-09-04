@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/hrmanager?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3307/hotel?useUnicode=true&characterEncoding=UTF-8
     username: root
     password: aa
   thymeleaf:
