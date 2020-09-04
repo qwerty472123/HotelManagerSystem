@@ -20,8 +20,10 @@ public class GuestController {
     }
     @PostMapping(path = "register")
     public String doRegister(User user, Model model) {
+        System.out.println("注册用户 "+user);
         user.setRole(0);
         Integer status = userService.register(user);
+        System.out.println("注册验证结果 "+status);
         if (status == 0) {
             return "/user/login";
         }
