@@ -19,7 +19,7 @@ public interface DeptMapper {
             @Result(column = "deptname", property = "deptName"),
             @Result(column = "status", property = "status"),
             @Result(column = "deptId", property = "empList",
-                    many = @Many(select = "com.myexample.bootwithmybatis.mapper.EmpMapper.selectEmpsByDeptId",
+                    many = @Many(select = "com.seucourse.hotelmanage.mapper.EmpMapper.selectEmpsByDeptId",
                             fetchType = FetchType.LAZY))
     })
     Dept selectDeptByDeptId(Integer deptId);
