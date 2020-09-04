@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.jws.WebParam;
+import javax.net.ssl.HttpsURLConnection;
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping(path = "/guest")
 public class GuestController {
@@ -29,5 +33,11 @@ public class GuestController {
         }
         model.addAttribute("errorId", status);
         return "guest_register";
+    }
+
+    @GetMapping(path="/")
+    public String welcome(Model model, HttpSession session){
+        model.addAttribute("name",session.getAttribute("name"));
+        return "guest_welcome";
     }
 }

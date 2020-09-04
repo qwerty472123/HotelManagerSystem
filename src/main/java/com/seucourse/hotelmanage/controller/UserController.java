@@ -25,6 +25,7 @@ public class UserController {
         System.out.println("登录验证结果："+status);
         if (status == 0) {
             session.setAttribute("userId", user.getId());
+            session.setAttribute("name",user.getName());
             return "redirect:/" + EnumUtil.getRoleDesc(user.getRole()) + "/";
         }
         model.addAttribute("errorId", status);
