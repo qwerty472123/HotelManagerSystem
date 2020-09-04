@@ -12,8 +12,8 @@ public interface UserMapper {
     @Delete("DELETE FROM user WHERE id = #{id}")
     void deleteUser(User user);
 
-    @Select("SELECT id FROM User WHERE id = #{UserId} ")
-    void selectIdByUserId(Integer UserId);
+    @Select("SELECT id FROM User WHERE id = #{userId} ")
+    void selectIdByUserId(Integer userId);
 
     @Insert("INSERT INTO user(username, password, role, name) VALUES (#{username}, #{password}, #{role}, #{name})")
     void insertUser(User user);

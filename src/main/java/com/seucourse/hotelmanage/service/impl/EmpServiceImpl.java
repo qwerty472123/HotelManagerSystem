@@ -25,9 +25,6 @@ public class EmpServiceImpl implements EmpService {
         emp.setHireDate(new Date());
         User user = emp.getUser();
         Integer status = userService.register(user);
-
         this.empMapper.insertEmp(emp);
-
-
     }
 }
