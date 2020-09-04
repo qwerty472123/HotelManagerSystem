@@ -25,7 +25,7 @@ public class GuestController {
         Integer status = userService.register(user);
         System.out.println("注册验证结果 "+status);
         if (status == 0) {
-            return "/user/login";
+            return "redirect:/";
         }
         model.addAttribute("errorId", status);
         return "guest_register";
