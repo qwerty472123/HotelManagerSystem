@@ -2,6 +2,7 @@ package com.seucourse.hotelmanage.service;
 
 import com.seucourse.hotelmanage.entity.Order;
 
+import java.util.Date;
 import java.util.List;
 
 public interface OrderService {
@@ -10,5 +11,5 @@ public interface OrderService {
     void insertOrder(Order order);
     String deleteOrderByOrderId(Integer orderId);
     Order queryOrderByOrderId(Integer orderId);
-    void updateOrder(Order order);
+    void updateOrder(Order order, Date d1, Date d2);
 }

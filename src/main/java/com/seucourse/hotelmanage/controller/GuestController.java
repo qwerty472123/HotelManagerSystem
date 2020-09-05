@@ -118,7 +118,7 @@ public class GuestController {
         }
 
         order.setEndDate(d2);
-        orderService.updateOrder(order);
+        orderService.updateOrder(order,d1,d2);
         return "success";
     }
 

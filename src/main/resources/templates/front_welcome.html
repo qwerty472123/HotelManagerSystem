@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hotel 服务</title>
+
+    <link rel="stylesheet" th:href="@{/webjars/material-design-lite/1.3.0/material.min.css}"/>
+    <!-- Square card -->
+    <style>
+        @font-face {
+            font-family: 'Material Icons';
+            font-style: normal;
+            font-weight: 400;
+            src: url(/static/mdl/icons.woff2) format('woff2'),
+            url(/static/mdl/icons.woff) format('woff');
+        }
+
+        body {
+            height: 100%;
+            width: 100%;
+        }
+
+        .wrapper {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Always shows a header, even in smaller screens. -->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <!-- Title -->
+            <span class="mdl-layout-title" th:text="'Hotel 服务 - '+${curUser.name} + '(' + ${curUser.roleDescCN} + ')'"></span>
+            <!-- Add spacer, to align navigation to the right -->
+            <div class="mdl-layout-spacer"></div>
+            <!-- Navigation. We hide it in small screens. -->
+            <nav class="mdl-navigation mdl-layout--large-screen-only">
+
+            </nav>
+        </div>
+    </header>
+    <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">Hotel 服务</span>
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="/guest/order">预约</a>
+            <a class="mdl-navigation__link" href="/guest/showList">预约/入住记录</a>
+            <a class="mdl-navigation__link" href="/user/logout">注销</a>
+        </nav>
+    </div>
+    <main class="mdl-layout__content">
+        <div class="page-content wrapper">
+
+            <div th:switch="${tab}">
+                <h2 th:case="0">欢迎！请打开左侧菜单栏选择具体服务。</h2>
+                <div th:case="1">
+
+<!--                    <form style="padding: 20px" class="demo-card-square mdl-card mdl-shadow&#45;&#45;2dp" method="post"-->
+<!--                    th:action="@{/guest/addOrder}" onsubmit="return addOrder(this)">-->
+
+<!--                        <h5>房间类型</h5>-->
+<!--                        <div style="flex-direction: column" class="wrapper">-->
+<!--                            <p th:each="item,status : ${roomTypes}">-->
+<!--                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect"-->
+<!--                                       th:for="'option-'+${status.count}">-->
+<!--                                    <input type="radio" th:id="'option-'+${status.count}" class="mdl-radio__button"-->
+<!--                                           name="roomType" th:value="${item}" required>-->
+<!--                                    <span th:text="${item}" class="mdl-radio__label"></span>-->
+<!--                                </label>-->
+<!--                            </p>-->
+<!--                        </div>-->
+
+
+<!--                        <div class="mdl-textfield mdl-js-textfield mdl-textfield&#45;&#45;floating-label">-->
+<!--                            <h5>入住日期</h5>-->
+<!--                            <input name="startDate" class="mdl-textfield__input" type="date" id="sample2" required>-->
+<!--                            <label class="mdl-textfield__label" for="sample2"></label>-->
+<!--                        </div>-->
+
+<!--                        <div class="mdl-textfield mdl-js-textfield mdl-textfield&#45;&#45;floating-label">-->
+<!--                            <h5>退住日期</h5>-->
+<!--                            <input name="endDate" class="mdl-textfield__input" type="date" id="sample3" required>-->
+<!--                            <label class="mdl-textfield__label" for="sample3"></label>-->
+<!--                        </div>-->
+
+<!--                        &lt;!&ndash; Primary-colored flat button &ndash;&gt;-->
+<!--                        <div class="mdl-card__actions " style="display: flex; justify-content: center">-->
+<!--                            <button type="submit"-->
+<!--                                    class="mdl-button mdl-js-button mdl-button&#45;&#45;raised mdl-button&#45;&#45;colored mdl-js-ripple-effect">-->
+<!--                                预 &nbsp; 约-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                    </form>-->
+
+
+                </div>
+                <div th:case="2">
+                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>姓名</th>
+                            <th>房间类型</th>
+                            <th>房间号</th>
+                            <th>入住时间</th>
+                            <th>退房时间</th>
+                            <th>当前状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item,status :${orderList}">
+                            <td th:text="${status.count}"></td>
+                            <td th:text="${item.user.name}"></td>
+                            <td th:text="${item.room.type}"></td>
+                            <td th:text="${item.room.name}"></td>
+                            <td th:text="${#dates.format(item.getStartDate(),'yyyy-MM-dd')}"></td>
+                            <td th:text="${#dates.format(item.getEndDate(),'yyyy-MM-dd')}"></td>
+                            <td th:text="${item.statusDesc}"></td>
+                            <td>
+                                <button  th:if="${item.status == 1}" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
+                                         th:onclick="|removeOrder(${item.getId()})|">取消预约</button>
+                                <a  th:if="${item.status == 0}" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
+                                         th:href="@{'/guest/extendOrder/'+${item.id}}">续约</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:case="3">
+                    <form style="padding: 20px" class="demo-card-square mdl-card mdl-shadow--2dp" method="post"
+                          th:action="@{/guest/extendOrder}" onsubmit="return extendOrder(this)">
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input id="orderId" name="orderId" th:value="${order.id}" type="hidden">
+                            <h5>房间类型</h5>
+                            <input name="roomType" th:value="${order.room.type}"
+                                   class="mdl-textfield__input" type="text" id="sample6" disabled>
+                            <label class="mdl-textfield__label" for="sample6"></label>
+                            <h5>入住日期</h5>
+                            <input name="startDate" th:value="${#dates.format(order.getStartDate(),'yyyy-MM-dd')}"
+                                   class="mdl-textfield__input" type="date" id="sample4" disabled>
+                            <label class="mdl-textfield__label" for="sample4"></label>
+                        </div>
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <h5>退住日期</h5>
+                            <input name="endDate" th:value="${#dates.format(order.getEndDate(),'yyyy-MM-dd')}"
+                                   class="mdl-textfield__input" type="date" id="sample30">
+                            <label class="mdl-textfield__label" for="sample30"></label>
+                        </div>
+
+                        <!-- Primary-colored flat button -->
+                        <div class="mdl-card__actions " style="display: flex; justify-content: center">
+                            <button type="submit"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
+                                续 约
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<script src="/webjars/jquery/3.2.1/dist/jquery.js"></script>
+<script th:src="@{/webjars/material-design-lite/1.3.0/material.min.js}"></script>
+
+<div id="info-snackbar" class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
+</div>
+
+<script type="text/javascript">
+
+    function showSnackBar(text) {
+        new MaterialSnackbar(document.getElementById('info-snackbar')).showSnackbar({
+            message: text
+        });
+    }
+
+    function extendOrder(th){
+        postData=$(th).serialize();
+        console.log(postData);
+        $.ajax({
+            url: '/guest/extendOrder',
+            type: 'post',
+            data: postData,
+            success: function(data){
+                console.log(data);
+                if (data === "success") {
+                    showSnackBar("你已成功续约！");
+                    setTimeout(function () {
+                        location.href = "/guest/showList"
+                    },1000);
+                    return;
+                }
+                showSnackBar(data);
+                //document.querySelector("#dlgMsg").innerHTML=data;
+            },
+            error: function (error){  //请求失败之后，打印错误信息
+                showSnackBar("请求出错");
+                console.log(error);
+            }
+        })
+        return false;
+    }
+
+    function removeOrder(orderId){
+        $.ajax({
+            url: '/guest/removeOrder/'+orderId,
+            type: 'get',
+            success: function(data){
+                console.log(data);
+                if (data === "success") {
+                    showSnackBar("取消预约成功！");
+                    setTimeout(function () {
+                        location.href = "./showList"
+                    },1000);
+                    return;
+                }
+                //document.querySelector("#dlgMsg").innerHTML=data;
+            },
+            error: function (error){  //请求失败之后，打印错误信息
+                showSnackBar("请求出错");
+                console.log(error);
+            }
+        })
+    }
+
+    function addOrder(th){
+        postData=$(th).serialize();
+        console.log(postData);
+        $.ajax({
+            url: '/guest/addOrder',
+            type: 'post',
+            data: postData,
+            success: function(data){
+                console.log(data);
+                if (data === "success") {
+                    showSnackBar("你已成功预约！");
+                    setTimeout(function () {
+                        location.href = "./showList"
+                    },1000);
+                    return;
+                }
+                showSnackBar(data);
+                //document.querySelector("#dlgMsg").innerHTML=data;
+            },
+            error: function (error){  //请求失败之后，打印错误信息
+                showSnackBar("请求出错");
+                console.log(error);
+            }
+        })
+        return false
+    }
+</script>
+</body>
+</html>

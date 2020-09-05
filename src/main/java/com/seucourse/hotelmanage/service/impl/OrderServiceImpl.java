@@ -63,7 +63,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateOrder(Order order) {
+    public void updateOrder(Order order,Date d1,Date d2) {
+
+        for(long time = d1.getTime(); time <= d2.getTime(); time += 3600 * 1000 * 24) {
+            conflictMapper.insertConflict(Conflict.builder().roomId(order.getRoomId()).date(new Date(time)).build());
+        }
+
         orderMapper.updateOrder(order);
     }
 
