@@ -204,4 +204,30 @@ public class FrontController {
         return "front_welcome";
     }
 
+    @GetMapping(path = "/showRoom")
+    public String showRooms(Model model) {
+        model.addAttribute("tab",22);
+        model.addAttribute("rooms",roomService.listRoom(Room.builder().build()));
+        return "front_welcome";
+    }
+
+    @PostMapping(path = "/bj")
+    @ResponseBody
+    public String requireBJ(Integer id) {
+        List<Room> rooms = roomService.listRoom(Room.builder().id(id).build());
+        if (rooms.size() != 1) return "无此房间";
+        Room room = rooms.get(0);
+        roomService.updateRoom(Room.builder().id(room.getId()).clean(0).build());
+        return "成功";
+    }
+
+    @PostMapping(path = "/deleteRoom")
+    @ResponseBody
+    public String deleteRoom(Integer id) {
+        List<Room> rooms = roomService.listRoom(Room.builder().id(id).build());
+        if (rooms.size() != 1) return "无此房间";
+        Room room = rooms.get(0);
+        roomService.deleteRoom(room.getId());
+        return "成功";
+    }
 }

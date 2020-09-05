@@ -138,11 +138,12 @@ public class GuestController {
 
     @PostMapping(path = "/bj")
     @ResponseBody
-    public String requireBJ(Integer id) {
+    public String requireBJ(Integer id, Model model) {
         List<Order> orders = orderService.listOrder(Order.builder().id(id).build());
         if (orders.size() != 1) return "无订单";
         Order order = orders.get(0);
         if (order.getStatus() != 0) return "未入住";
+        if(order.getUserId() != ((User)model.getAttribute("curUser")).getId()) return "其他用户的订单";
         roomService.updateRoom(Room.builder().id(order.getRoomId()).clean(0).build());
         return "成功";
     }

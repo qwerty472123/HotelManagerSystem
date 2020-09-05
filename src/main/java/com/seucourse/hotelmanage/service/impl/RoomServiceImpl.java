@@ -57,7 +57,7 @@ public class RoomServiceImpl implements RoomService {
     public void deleteRoom(Integer roomId) {
         List<Order> orders = orderService.listOrder(Order.builder().roomId(roomId).build());
         for(Order order: orders){
-            orderService.deleteOrderByOrderId(order.getId());
+            orderService.deleteOrderByOrderIdForce(order.getId());
         }
         roomMapper.deleteRoom(roomId);
     }

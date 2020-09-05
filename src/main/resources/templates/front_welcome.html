@@ -55,6 +55,7 @@
             <a class="mdl-navigation__link" href="/front/userManage">账号管理</a>
             <a class="mdl-navigation__link" href="/front/showIn">查看当天未入住记录</a>
             <a class="mdl-navigation__link" href="/front/showOut">查看当天未退房记录</a>
+            <a class="mdl-navigation__link" href="/front/showRoom">查看所有房间</a>
             <a class="mdl-navigation__link" href="/user/logout">注销</a>
         </nav>
     </div>
@@ -299,6 +300,52 @@
                         </tbody>
                     </table>
                 </div>
+
+
+
+                <div th:case="22">
+                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>房间名</th>
+                            <th>房间类型</th>
+                            <th>当前状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item,status :${rooms}">
+                            <td th:text="${status.count}"></td>
+                            <td th:text="${item.name}"></td>
+                            <td th:text="${item.type}"></td>
+                            <td th:text="${item.clean == 0 ? '需清理' : '不需清理'}"></td>
+                            <td>
+                                <button  th:disabled="${item.clean == 0}" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
+                                         th:onclick="|needClean(${item.getId()})|">标记为需清理</button>
+                                <button  class="mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect"
+                                         th:onclick="|deleteRoom(${item.getId()})|">删除房间</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <script type="text/javascript">
+                        function needClean(id) {
+                            $.post('/front/bj', {id :id},function (e) {
+                                showSnackBar(e);
+                                setTimeout(()=>location.reload(),1000);
+                            })
+                        }
+                        function deleteRoom(id) {
+                            $.post('/front/deleteRoom', {id :id},function (e) {
+                                showSnackBar(e);
+                                setTimeout(()=>location.reload(),1000);
+                            })
+                        }
+                    </script>
+                </div>
+
+
                 <div th:case="3">
                     <form style="padding: 20px" class="demo-card-square mdl-card mdl-shadow--2dp" method="post"
                           th:action="@{/front/extendOrder}" onsubmit="return extendOrder(this)">

@@ -25,6 +25,9 @@ public class RoomSQLProvider {
             SELECT("id, name, clean, type");
             FROM("room");
             if(room != null) {
+                if (null != room.getId()) {
+                    WHERE("id = #{id}");
+                }
                 if (null != room.getName() && !room.getName().equals("")) {
                     WHERE("name = #{name}");
                 }
