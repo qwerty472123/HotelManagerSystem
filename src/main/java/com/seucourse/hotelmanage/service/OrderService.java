@@ -5,6 +5,7 @@ import com.seucourse.hotelmanage.entity.Order;
 import java.util.List;
 
 public interface OrderService {
+    List<Order> listOrder(Order order);
     List<Order> queryOrdersByUserId(Integer userId);
     void insertOrder(Order order);
     String deleteOrderByOrderId(Integer orderId);

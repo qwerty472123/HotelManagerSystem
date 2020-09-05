@@ -62,7 +62,7 @@
                 <div th:case="1">
 
                     <form style="padding: 20px" class="demo-card-square mdl-card mdl-shadow--2dp" method="post"
-                    th:action="@{/guest/addOrder}">
+                    th:action="@{/guest/addOrder}" onsubmit="addOrder(this)">
 
                         <h5>房间类型</h5>
                         <div style="flex-direction: column" class="wrapper">
@@ -70,7 +70,7 @@
                                 <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect"
                                        th:for="'option-'+${status.count}">
                                     <input type="radio" th:id="'option-'+${status.count}" class="mdl-radio__button"
-                                           name="roomType" th:value="${item}">
+                                           name="roomType" th:value="${item}" required>
                                     <span th:text="${item}" class="mdl-radio__label"></span>
                                 </label>
                             </p>
@@ -79,20 +79,19 @@
 
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                             <h5>入住日期</h5>
-                            <input name="startDate" class="mdl-textfield__input" type="date" id="sample2">
+                            <input name="startDate" class="mdl-textfield__input" type="date" id="sample2" required>
                             <label class="mdl-textfield__label" for="sample2"></label>
                         </div>
 
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                             <h5>退住日期</h5>
-                            <input name="endDate" class="mdl-textfield__input" type="date" id="sample3">
+                            <input name="endDate" class="mdl-textfield__input" type="date" id="sample3" required>
                             <label class="mdl-textfield__label" for="sample3"></label>
                         </div>
 
                         <!-- Primary-colored flat button -->
                         <div class="mdl-card__actions " style="display: flex; justify-content: center">
-                            <button type="button"
-                                    onclick="addOrder()"
+                            <button type="submit"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
                                 预 &nbsp; 约
                             </button>
@@ -176,12 +175,8 @@
         })
     }
 
-    function addOrder(){
-        postData={
-            roomType: document.querySelector("input[name='roomType'][checked]").value,
-            startDate: document.querySelector("input[name='startDate']").value,
-            endDate: document.querySelector("input[name='endDate']").value
-        };
+    function addOrder(th){
+        postData=$(th).serialize();
         console.log(postData);
         $.ajax({
             url: '/guest/addOrder',

@@ -27,6 +27,9 @@ public class UserSQLProvider {
             SELECT("id, username, password, role, name");
             FROM("user");
             if(user != null) {
+                if (null != user.getId()) {
+                    WHERE("id = #{id}");
+                }
                 if (null!= user.getName() && !user.getName().equals("")) {
                     WHERE("name = #{name}");
                 }
@@ -37,7 +40,7 @@ public class UserSQLProvider {
                     WHERE("password = #{password}");
                 }
                 if(null != user.getRole()) {
-                    WHERE("password = #{password}");
+                    WHERE("role = #{role}");
                 }
             }
         }}.toString();

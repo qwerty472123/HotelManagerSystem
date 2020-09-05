@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class Room {
     private Integer id;
     private String name;
-    private Boolean clean;
+    private Integer clean;
     private String type;
 }

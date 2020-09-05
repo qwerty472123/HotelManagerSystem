@@ -21,6 +21,11 @@ public class OrderServiceImpl implements OrderService {
     ConflictMapper conflictMapper;
 
     @Override
+    public List<Order> listOrder(Order order) {
+        return orderMapper.selectAllOrders(order);
+    }
+
+    @Override
     public List<Order> queryOrdersByUserId(Integer userId) {
         Order order=Order.builder().userId(userId).build();
         return orderMapper.selectAllOrders(order);

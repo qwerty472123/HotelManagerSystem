@@ -96,7 +96,4 @@ public class GuestController {
         model.addAttribute("orderList",orders);
         return "guest_welcome";
     }
-
-
-
 }
