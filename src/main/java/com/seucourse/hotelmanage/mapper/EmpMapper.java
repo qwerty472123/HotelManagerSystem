@@ -2,6 +2,7 @@ package com.seucourse.hotelmanage.mapper;
 
 import com.seucourse.hotelmanage.entity.Emp;
 import com.seucourse.hotelmanage.entity.User;
+import com.seucourse.hotelmanage.provider.EmpSQLProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 
@@ -15,6 +16,15 @@ public interface EmpMapper {
     @SelectKey(keyColumn = "id", keyProperty = "id", before = false,
             statement = "SELECT LAST_INSERT_ID()", resultType = Integer.class)
     void insertEmp(Emp emp);
+
+    @Delete("UPDATE emp WHERE id = #{id} ")
+    void deleteEmpByEmpId(Integer id);
+
+    @SelectProvider(type = EmpSQLProvider.class,  method = "createSelectAllSQL")
+    List<Emp> selectAllEmps(Emp emp);
+
+    @UpdateProvider(type = EmpSQLProvider.class, method = "createUpdateSQL")
+    void updateEmp(Emp emp);
 
     @Select("SELECT id, userid, hiredate, birthday, gender, phone" +
             " FROM emp WHERE id = #{id}")
