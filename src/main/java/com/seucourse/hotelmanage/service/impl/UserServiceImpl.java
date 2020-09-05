@@ -1,8 +1,11 @@
 package com.seucourse.hotelmanage.service.impl;
 
+import com.seucourse.hotelmanage.entity.Order;
 import com.seucourse.hotelmanage.entity.User;
+import com.seucourse.hotelmanage.mapper.OrderMapper;
 import com.seucourse.hotelmanage.mapper.UserMapper;
 import com.seucourse.hotelmanage.provider.UserSQLProvider;
+import com.seucourse.hotelmanage.service.OrderService;
 import com.seucourse.hotelmanage.service.UserService;
 import com.seucourse.hotelmanage.util.PasswordEncryptUtil;
 import org.apache.ibatis.annotations.SelectProvider;
@@ -15,6 +18,10 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private OrderService orderService;
+
     @Override
     public Integer login(User user) {
         User userInDB = userMapper.selectUser(User.builder().username(user.getUsername()).build());
@@ -62,6 +69,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String deleteUserByUserId(Integer userId) {
+        List<Order> orders = orderService.listOrder(Order.builder().userId(userId).build());
+        for(Order order:orders){
+            orderService.deleteOrderByOrderIdForce(order.getId());
+        }
         userMapper.deleteUser(userId);
         return "success";
     }

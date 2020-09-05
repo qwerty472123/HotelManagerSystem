@@ -169,7 +169,6 @@ public class FrontController {
 
     @GetMapping(path = "/")
     public String showRecList(Model model) {
-
         model.addAttribute("tab", 2);
 
         Order order=Order.builder().build();
