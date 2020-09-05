@@ -14,6 +14,12 @@ public class OrderSQLProvider {
             if (null != order.getRoomId()){
                 WHERE("roomId = #{roomId}");
             }
+            if (null != order.getStartDate()){
+                WHERE("startDate = #{startDate}");
+            }
+            if (null != order.getEndDate()){
+                WHERE("endDate = #{endDate}");
+            }
             if (null != order.getUserId()){
                 WHERE("userId = #{userId}");
             }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -32,6 +33,23 @@ public class FrontController {
         model.addAttribute("tab", 12);
         Order order=Order.builder().startDate(TimeUtil.getCurrentDate()).status(1).build();
         List<Order> orders=orderService.listOrder(order);
+        model.addAttribute("orderList",orders);
+        return "front_welcome";
+    }
+
+    @GetMapping(path = "/in/{orderId}")
+    public String toIn(Model model, @PathVariable("orderId") Integer orderId) {
+        model.addAttribute("tab",13);
+        model.addAttribute("order", orderService.queryOrderByOrderId(orderId));
+        return "front_welcome";
+    }
+
+    @GetMapping(path = "/showOut")
+    public String showOut(Model model) {
+        model.addAttribute("tab", 2);
+        Order order=Order.builder().endDate(TimeUtil.getCurrentDate()).status(0).build();
+        List<Order> orders=orderService.listOrder(order);
+        model.addAttribute("orderList",orders);
         return "front_welcome";
     }
 

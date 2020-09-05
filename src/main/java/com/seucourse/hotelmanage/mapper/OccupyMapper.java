@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface OccupyMapper {
-    @Insert("INSERT INTO occupy(roomId, name, certId) VALUES (#{roomId}, #{name}, #{certId})")
+    @Insert("INSERT INTO occupy(orderId, name, certId) VALUES (#{orderId}, #{name}, #{certId})")
     @SelectKey(keyColumn = "id", keyProperty = "id", before = false,
             statement = "SELECT LAST_INSERT_ID()", resultType = Integer.class)
     void insertOccupy(Occupy occupy);

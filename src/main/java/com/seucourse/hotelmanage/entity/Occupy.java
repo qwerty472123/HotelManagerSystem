@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Occupy {
     private Integer id;
-    private Integer roomId;
+    private Integer orderId;
     private String name;
     private String certId;
 }

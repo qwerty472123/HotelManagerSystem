@@ -8,8 +8,8 @@ public class OccupySQLProvider {
     public String createUpdateSQL(Occupy occupy) {
         return new SQL(){{
             UPDATE("occupy");
-            if (null != occupy.getRoomId()) {
-                SET("roomId = #{roomId}");
+            if (null != occupy.getOrderId()) {
+                SET("orderId = #{orderId}");
             }
             if(null != occupy.getName() && !occupy.getName().equals("")) {
                 SET("username = #{username}");
@@ -25,8 +25,8 @@ public class OccupySQLProvider {
             SELECT("id, roomId, name, certId");
             FROM("occupy");
             if(occupy != null) {
-                if (null != occupy.getRoomId()) {
-                    WHERE("roomId = #{roomId}");
+                if (null != occupy.getOrderId()) {
+                    WHERE("orderId = #{orderId}");
                 }
                 if(null != occupy.getName() && !occupy.getName().equals("")) {
                     WHERE("username = #{username}");
