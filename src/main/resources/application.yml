@@ -14,3 +14,6 @@ mybatis:
   type-aliases-package: com.myexample.bootwithmybatis.entity
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+password:
+  salt: hotelSystem
