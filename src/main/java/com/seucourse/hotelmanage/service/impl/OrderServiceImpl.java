@@ -39,7 +39,8 @@ public class OrderServiceImpl implements OrderService {
         String msg = "该预约已生效或过期，无法取消预约";
         Order order=Order.builder().id(orderId).build();
         List<Order> orders = orderMapper.selectAllOrders(order);
-        if(orders.get(0).getStatus()!=1){
+        order=orders.get(0);
+        if(order.getStatus()!=1){
             return msg;
         }
         for(long time = order.getStartDate().getTime(); time <= order.getEndDate().getTime(); time += 3600 * 1000 * 24) {
