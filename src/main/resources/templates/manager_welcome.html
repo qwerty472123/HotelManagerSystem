@@ -49,8 +49,8 @@
     <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">Hotel 服务</span>
         <nav class="mdl-navigation">
-            <a class="mdl-navigation__link" href="/guest/order">预约</a>
-            <a class="mdl-navigation__link" href="/guest/showList">预约/入住记录</a>
+            <a class="mdl-navigation__link" href="/manager/addWorker">添加员工</a>
+            <a class="mdl-navigation__link" href="/manager/showList">查看员工信息</a>
             <a class="mdl-navigation__link" href="/user/logout">注销</a>
         </nav>
     </div>
@@ -59,10 +59,9 @@
 
             <div th:switch="${tab}">
                 <h2 th:case="0">欢迎！请打开左侧菜单栏选择具体服务。</h2>
-                <div th:case="1">
-
+                <div th:case="2">
                     <form style="padding: 20px" class="demo-card-square mdl-card mdl-shadow--2dp" method="post"
-                    th:action="@{/guest/addOrder}" onsubmit="return addOrder(this)">
+                          th:action="@{/manager/addWorker}" onsubmit="return addWorker(this)">
 
                         <h5>房间类型</h5>
                         <div style="flex-direction: column" class="wrapper">
@@ -97,37 +96,37 @@
                             </button>
                         </div>
                     </form>
-
-
                 </div>
-                <div th:case="2">
-                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                <div th:case="1">
+                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                         <thead>
                         <tr>
                             <th>序号</th>
-                            <th>姓名</th>
-                            <th>房间类型</th>
-                            <th>房间号</th>
-                            <th>入住时间</th>
-                            <th>退房时间</th>
-                            <th>当前状态</th>
+                            <th>用户名</th>
+                            <th>员工类型</th>
+                            <th>员工姓名</th>
+                            <th>雇佣日期</th>
+                            <th>生日</th>
+                            <th>性别</th>
+                            <th>电话</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="item,status :${orderList}">
+                        <tr th:each="item,status :${emps}">
                             <td th:text="${status.count}"></td>
+                            <td th:text="${item.user.username}"></td>
+                            <td th:text="${item.user.roleDescCN}"></td>
                             <td th:text="${item.user.name}"></td>
-                            <td th:text="${item.room.type}"></td>
-                            <td th:text="${item.room.name}"></td>
-                            <td th:text="${#dates.format(item.getStartDate(),'yyyy-MM-dd')}"></td>
-                            <td th:text="${#dates.format(item.getEndDate(),'yyyy-MM-dd')}"></td>
-                            <td th:text="${item.statusDesc}"></td>
+                            <td th:text="${#dates.format(item.hireDate,'yyyy-MM-dd')}"></td>
+                            <td th:text="${#dates.format(item.birthday,'yyyy-MM-dd')}"></td>
+                            <td th:text="${item.genderDesc}"></td>
+                            <td th:text="${item.phone}"></td>
                             <td>
-                                <button  th:if="${item.status == 1}" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
-                                         th:onclick="|removeOrder(${item.getId()})|">取消预约</button>
-                                <a  th:if="${item.status == 0}" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
-                                         th:href="@{'/guest/extendOrder/'+${item.roomId}}">续约</a>
+                                <button  class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
+                                         th:onclick="|toUpdate(${item.getId()})|">更新</button>
+                                <button  class="mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect"
+                                         th:onclick="|toUpdate(${item.getId()})|">删除</button>
                             </td>
                         </tr>
                         </tbody>
@@ -155,19 +154,20 @@
         });
     }
 
-    function removeOrder(orderId){
+    function toClean(roomId){
         $.ajax({
-            url: '/guest/removeOrder/'+orderId,
+            url: '/back/setClean/'+roomId,
             type: 'get',
             success: function(data){
                 console.log(data);
                 if (data === "success") {
-                    showSnackBar("取消预约成功！");
+                    showSnackBar("标记成功");
                     setTimeout(function () {
-                        location.href = "./showList"
+                        location.reload();
                     },1000);
                     return;
                 }
+                showSnackBar("标记失败");
                 //document.querySelector("#dlgMsg").innerHTML=data;
             },
             error: function (error){  //请求失败之后，打印错误信息
@@ -175,33 +175,6 @@
                 console.log(error);
             }
         })
-    }
-
-    function addOrder(th){
-        postData=$(th).serialize();
-        console.log(postData);
-        $.ajax({
-            url: '/guest/addOrder',
-            type: 'post',
-            data: postData,
-            success: function(data){
-                console.log(data);
-                if (data === "success") {
-                    showSnackBar("你已成功预约！");
-                    setTimeout(function () {
-                        location.href = "./showList"
-                    },1000);
-                    return;
-                }
-                showSnackBar(data);
-                //document.querySelector("#dlgMsg").innerHTML=data;
-            },
-            error: function (error){  //请求失败之后，打印错误信息
-                showSnackBar("请求出错");
-                console.log(error);
-            }
-        })
-        return false
     }
 </script>
 </body>

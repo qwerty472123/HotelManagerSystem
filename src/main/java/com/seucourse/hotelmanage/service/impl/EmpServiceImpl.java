@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.List;
 
 @Service("empService")
 public class EmpServiceImpl implements EmpService {
@@ -26,5 +27,10 @@ public class EmpServiceImpl implements EmpService {
         User user = emp.getUser();
         Integer status = userService.register(user);
         this.empMapper.insertEmp(emp);
+    }
+
+    @Override
+    public List<Emp> listEmps(Emp emp) {
+        return empMapper.selectEmp(emp);
     }
 }

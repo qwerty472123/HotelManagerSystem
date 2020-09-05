@@ -28,7 +28,7 @@ public interface EmpMapper {
             @Result(column = "birthday", property = "birthday"),
             @Result(column = "gender", property = "gender"),
             @Result(column = "phone", property = "phone"),
-            @Result(column = "id", property = "user", one = @One(select = "com.seucourse.hotelmanage.mapper.UserMapper.selectUserByUserId",
+            @Result(column = "userId", property = "user", one = @One(select = "com.seucourse.hotelmanage.mapper.UserMapper.selectUserByUserId",
                     fetchType = FetchType.LAZY))
     })
     List<Emp> selectEmp(Emp emp);
