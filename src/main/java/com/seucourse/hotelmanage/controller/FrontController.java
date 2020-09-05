@@ -196,7 +196,7 @@ public class FrontController {
 
         model.addAttribute("tab",4);
 
-        User user=User.builder().build();
+        User user=User.builder().role(0).build();
         List<User> users=userService.listUsers(user);
 
         model.addAttribute("userList",users);
