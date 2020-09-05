@@ -32,16 +32,15 @@ public class GuestController {
         return "guest_register";
     }
     @PostMapping(path = "register")
-    public String doRegister(User user, Model model) {
+    public @ResponseBody Integer doRegister(User user) {
         System.out.println("注册用户 "+user);
         user.setRole(0);
         Integer status = userService.register(user);
         System.out.println("注册验证结果 "+status);
-        if (status == 0) {
-            return "redirect:/";
-        }
-        model.addAttribute("errorId", status);
-        return "guest_register";
+
+        //model.addAttribute("errorId", status);
+
+        return status;
     }
 
     @GetMapping(path="/")

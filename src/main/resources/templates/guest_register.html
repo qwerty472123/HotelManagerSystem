@@ -35,7 +35,7 @@
 <div class="wrapper">
     <h2>Hotel 用户注册</h2>
     <form style="padding: 20px" class="demo-card-square mdl-card mdl-shadow--2dp" method="post"
-          th:action="@{/guest/register}">
+           onsubmit="return registerUser(this)">
         <!-- Simple Textfield -->
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <input name="username" class="mdl-textfield__input" type="text" id="sample1">
@@ -62,6 +62,46 @@
             </a>
         </div>
     </form>
+    <script src="/webjars/jquery/3.2.1/dist/jquery.js"></script>
+    <script type="text/javascript">
+        function showSnackBar(str) {
+            new MaterialSnackbar(document.getElementById('error-snackbar')).showSnackbar({
+                message: str
+            });
+        }
+        function registerUser(th){
+            postData = $(th).serialize();
+            console.log(postData);
+            $.ajax({
+                url: '/guest/register',
+                type: 'post',
+                data: postData,
+                success: function (data) {
+                    console.log(data);
+                    data = parseInt(data);
+                    if (data == 0) {
+                        showSnackBar("注册成功,请重新登陆!");
+                        setTimeout(function () {
+                            location.href = "/"
+                        }, 1000);
+                        return;
+                    }
+                    let msg='';
+                    if(data==-1)msg='用户名被使用';
+                    else if(data==-2)msg='姓名为空';
+                    else if(data==-3)msg='用户名太短';
+                    else if(data==-4)msg='密码太短';
+                    showSnackBar(msg);
+                    //document.querySelector("#dlgMsg").innerHTML=data;
+                },
+                error: function (error) {  //请求失败之后，打印错误信息
+                    //showSnackBar("请求出错");
+                    console.log(error);
+                }
+            })
+            return false;
+        }
+    </script>
 </div>
 
 
