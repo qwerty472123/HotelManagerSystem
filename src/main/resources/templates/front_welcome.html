@@ -278,37 +278,80 @@
                         </tbody>
                     </table>
                 </div>
-                <div th:case="3">
-                    <form style="padding: 20px" class="demo-card-square mdl-card mdl-shadow--2dp" method="post"
-                          th:action="@{/guest/extendOrder}" onsubmit="return extendOrder(this)">
+                <div th:case="4">
+                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>登录名</th>
+                            <th>姓名</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item,status :${userList}">
+                            <td th:text="${status.count}"></td>
+                            <td th:text="${item.username}" th:id="'username'+${item.id}"></td>
+                            <td th:text="${item.name}"></td>
+                            <td>
+                                <button class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
+                                        th:onclick="|toUpdate(${item.id})|">修改密码
+                                </button>
 
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                            <input id="orderId" name="orderId" th:value="${order.id}" type="hidden">
-                            <h5>房间类型</h5>
-                            <input name="roomType" th:value="${order.room.type}"
-                                   class="mdl-textfield__input" type="text" id="sample6" disabled>
-                            <label class="mdl-textfield__label" for="sample6"></label>
-                            <h5>入住日期</h5>
-                            <input name="startDate" th:value="${#dates.format(order.getStartDate(),'yyyy-MM-dd')}"
-                                   class="mdl-textfield__input" type="date" id="sample4" disabled>
-                            <label class="mdl-textfield__label" for="sample4"></label>
-                        </div>
+                                <button class="mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect"
+                                        th:onclick="|toDelete(${item.getId()})|">删除
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <dialog id="changePwdDlg" class="mdl-dialog">
+                        <h4 class="mdl-dialog__title">修改密码</h4>
+                        <div class="mdl-dialog__content">
+                            <p id="dlgMsg">
 
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                            <h5>退住日期</h5>
-                            <input name="endDate" th:value="${#dates.format(order.getEndDate(),'yyyy-MM-dd')}"
-                                   class="mdl-textfield__input" type="date" id="sample30">
-                            <label class="mdl-textfield__label" for="sample30"></label>
-                        </div>
+                            </p>
 
-                        <!-- Primary-colored flat button -->
-                        <div class="mdl-card__actions " style="display: flex; justify-content: center">
-                            <button type="submit"
-                                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
-                                续 约
-                            </button>
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                <input class="mdl-textfield__input" type="password" id="newpwd">
+                                <label class="mdl-textfield__label" for="newpwd">新密码</label>
+                            </div>
                         </div>
-                    </form>
+                        <div class="mdl-dialog__actions">
+                            <button type="button" class="mdl-button" onclick="changePwd()">确定</button>
+                            <button type="button" class="mdl-button close">取消</button>
+                        </div>
+                    </dialog>
+                    <script type="text/javascript">
+                        var dialog = document.querySelector('#changePwdDlg');
+                        if (!dialog.showModal) {
+                            dialogPolyfill.registerDialog(dialog);
+                        }
+                        dialog.querySelector('.close').addEventListener('click', function () {
+                            dialog.close();
+                        });
+
+                        let userId;
+
+                        function changePwd(){
+                            let newpwd=document.querySelector('#newpwd').value;
+                            console.log('用户'+userId+'新密码'+newpwd);
+
+                            $.ajax(
+
+                            )
+
+
+                        }
+
+                        function toUpdate(uid) {
+                            userId=uid;
+                            username=document.querySelector('#username'+uid).innerHTML;
+                            document.querySelector('#dlgMsg').innerHTML='正在为用户'+username+'修改密码...';
+                            document.querySelector('#newpwd').value=''
+                            dialog.showModal();
+                        }
+                    </script>
                 </div>
             </div>
 
