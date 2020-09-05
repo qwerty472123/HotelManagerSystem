@@ -162,7 +162,7 @@
 
                 <div th:case="3" style="    display: flex; justify-content: center;">
                     <form style="padding: 20px" class="demo-card-square mdl-card mdl-shadow--2dp" method="post"
-                          th:action="@{/manager/addWorker}" onsubmit="return updateWorker(this)">
+                          th:action="'/manager/update/' + ${emp.id}" onsubmit="return updateWorker(this)">
 
                         <h5>员工类型</h5>
                         <div style="flex-direction: column" class="wrapper">
@@ -290,7 +290,7 @@
                                 <button  class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
                                          th:onclick="|toUpdate(${item.getId()})|">更新</button>
                                 <button  class="mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect"
-                                         th:onclick="|toDelete(${item.getId()})|">删除</button>
+                                     th:disabled="${item.userId==curUser.id}" th:onclick="|toDelete(${item.getId()})|">删除</button>
                             </td>
                         </tr>
                         </tbody>
@@ -345,6 +345,30 @@
                     return;
                 }
                 showSnackBar([null,'用户名被使用','姓名为空','用户名太短','密码太短'][-data]);
+                //document.querySelector("#dlgMsg").innerHTML=data;
+            },
+            error: function (error){  //请求失败之后，打印错误信息
+                showSnackBar("请求出错");
+                console.log(error);
+            }
+        })
+        return false
+    }
+
+    function updateWorker(th){
+        $.ajax({
+            url: th.getAttribute("action"),
+            type: 'post',
+            data: $(th).serialize(),
+            success: function(data){
+                if (data == "success") {
+                    showSnackBar("修改成功");
+                    setTimeout(function () {
+                        location.href = "/manager/showList";
+                    },1000);
+                    return;
+                }
+                showSnackBar(data);
                 //document.querySelector("#dlgMsg").innerHTML=data;
             },
             error: function (error){  //请求失败之后，打印错误信息

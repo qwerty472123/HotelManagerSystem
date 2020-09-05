@@ -42,7 +42,7 @@ public class ManagerController {
 
     @PostMapping(path = "/delete")
     @ResponseBody
-    public Integer deleteWorker(Integer id) {
+    public Integer deleteWorker(Integer id, Model model) {
         return empService.deleteEmp(id);
     }
 

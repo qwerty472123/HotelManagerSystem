@@ -39,7 +39,7 @@ public class EmpServiceImpl implements EmpService {
     @Override
     public Integer deleteEmp(Integer id) {
         List<Emp> emps = empMapper.selectEmp(Emp.builder().id(id).build());
-        if(emps.size()!=1)return -1;
+        if (emps.size() != 1) return -1;
         Emp emp = emps.get(0);
         userMapper.deleteUser(User.builder().id(emp.getUserId()).build());
         empMapper.deleteEmp(id);

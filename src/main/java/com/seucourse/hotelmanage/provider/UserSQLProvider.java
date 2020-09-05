@@ -17,7 +17,7 @@ public class UserSQLProvider {
                 SET("password = #{password}");
             }
             if(null != user.getRole()) {
-                SET("password = #{password}");
+                SET("role = #{role}");
             }
             WHERE("id = #{id}");
         }}.toString();
