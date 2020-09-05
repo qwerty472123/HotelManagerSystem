@@ -60,7 +60,7 @@ public class GuestController {
     @PostMapping(path = "/addOrder")
     public @ResponseBody String addOrder(Model model, String roomType, Date startDate, Date endDate){
         Room room = roomService.getRoomByTypeAndTime(roomType,startDate,endDate);
-        System.out.println("type + " + roomType);
+        System.out.println("预约 type " + roomType);
         String msg="success";
         if(null == room){
             msg="所选时间内无此类型的可用房间!";
@@ -85,6 +85,7 @@ public class GuestController {
         String msg=orderService.deleteOrderByOrderId(orderId);
         return msg;
     }
+
 
 
     @GetMapping(path = "/showList")

@@ -123,8 +123,10 @@
                             <td th:text="${#dates.format(item.getEndDate(),'yyyy-MM-dd')}"></td>
                             <td th:text="${item.statusDesc}"></td>
                             <td>
-                                <button  th:disabled="${item.status != 1}" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
+                                <button  th:if="${item.status == 1}" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
                                          th:onclick="|removeOrder(${item.getId()})|">取消预约</button>
+                                <a  th:if="${item.status == 0}" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
+                                         th:href="@{'/guest/extendOrder/'+${item.roomId}}">续约</a>
                             </td>
                         </tr>
                         </tbody>
@@ -176,7 +178,7 @@
 
     function addOrder(){
         postData={
-            roomType: document.querySelector("input[name='roomType']").value,
+            roomType: document.querySelector("input[name='roomType'][checked]").value,
             startDate: document.querySelector("input[name='startDate']").value,
             endDate: document.querySelector("input[name='endDate']").value
         };
