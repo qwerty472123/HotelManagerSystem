@@ -106,7 +106,7 @@
                         <thead>
                         <tr>
                             <th>序号</th>
-                            <th>用户名</th>
+                            <th>姓名</th>
                             <th>入住时间</th>
                             <th>退房时间</th>
                             <th>当前状态</th>
@@ -116,7 +116,7 @@
                         <tbody>
                         <tr th:each="item,status :${orderList}">
                             <td th:text="${status.count}"></td>
-                            <td th:text="${item.getUsername()}"></td>
+                            <td th:text="${item.user.name}"></td>
                             <td th:text="${#dates.format(item.getStartDate(),'yyyy-MM-dd')}"></td>
                             <td th:text="${#dates.format(item.getEndDate(),'yyyy-MM-dd')}"></td>
                             <td th:text="${item.statusDesc}"></td>

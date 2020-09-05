@@ -5,12 +5,7 @@ import org.apache.ibatis.jdbc.SQL;
 
 public class EmpSQLProvider {
     public String createUpdateSQL(Emp emp){
-//        return new SQL()
-//                .UPDATE("dept")
-//                .SET("deptname = #{deptName}")
-//                .SET("status = #{status}")
-//                .WHERE("deptid = #{deptId}")
-//                .toString();
+        // userid, hiredate, birthday, gender, phone
         return new SQL(){{
             UPDATE("emp");
             if (null != emp.getUserId()){
@@ -32,9 +27,9 @@ public class EmpSQLProvider {
         }}.toString();
     }
 
-    public String createSelectAllSQL(Emp emp){
+    public String createSelectSQL(Emp emp){
         return new SQL(){{
-            SELECT("id, userid, hiredate, birthday, gender, phone");
+            SELECT("id, userId, hireDate, birthday, gender, phone");
             FROM("emp");
             if (null != emp.getId()){
                 WHERE("id = #{id}");
@@ -46,7 +41,7 @@ public class EmpSQLProvider {
                 WHERE("birthday = #{birthday}");
             }
             if (null != emp.getHireDate()) {
-                WHERE("hiredate = #{hireDate}");
+                WHERE("hireDate = #{hireDate}");
             }
             if (null != emp.getGender()) {
                 WHERE("gender = #{gender}");

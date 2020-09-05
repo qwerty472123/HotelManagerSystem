@@ -20,7 +20,7 @@ public class Order {
     private Integer status; //0-occupy 1-被预定 2-空闲
 
     private Room room;
-    private String username;
+    private User user;
 
     public String getStatusDesc() {
         return EnumUtil.getOrderStatusCN(status);

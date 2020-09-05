@@ -11,32 +11,29 @@ import java.util.List;
 @Mapper
 public interface EmpMapper {
 
-    @Insert("INSERT INTO emp(userid, hiredate, birthday, gender, phone) " +
-            "VALUES (#{userId}, #{hireDate} ,#{birthday} ,#{gender} ,#{phone}")
+    @Insert("INSERT INTO emp(userId, hireDate, birthday, gender, phone) " +
+            "VALUES (#{userId}, #{hireDate} ,#{birthday} ,#{gender} ,#{phone})")
     @SelectKey(keyColumn = "id", keyProperty = "id", before = false,
             statement = "SELECT LAST_INSERT_ID()", resultType = Integer.class)
     void insertEmp(Emp emp);
 
-    @Delete("UPDATE emp WHERE id = #{id} ")
-    void deleteEmpByEmpId(Integer id);
+    @Delete("DELETE FROM emp WHERE id = #{id} ")
+    void deleteEmp(Integer id);
 
-    @SelectProvider(type = EmpSQLProvider.class,  method = "createSelectAllSQL")
-    List<Emp> selectAllEmps(Emp emp);
+    @SelectProvider(type = EmpSQLProvider.class,  method = "createSelectSQL")
+    @Results(id = "withUsers", value = {
+            @Result(id = true, column = "id", property = "id"),
+            @Result(column = "userId", property = "userId"),
+            @Result(column = "hireDate", property = "hireDate"),
+            @Result(column = "birthday", property = "birthday"),
+            @Result(column = "gender", property = "gender"),
+            @Result(column = "phone", property = "phone"),
+            @Result(column = "id", property = "user", one = @One(select = "com.seucourse.hotelmanage.mapper.UserMapper.selectUserByUserId",
+                    fetchType = FetchType.LAZY))
+    })
+    List<Emp> selectEmp(Emp emp);
 
     @UpdateProvider(type = EmpSQLProvider.class, method = "createUpdateSQL")
     void updateEmp(Emp emp);
 
-    @Select("SELECT id, userid, hiredate, birthday, gender, phone" +
-            " FROM emp WHERE id = #{id}")
-    @Results(id = "withUsers", value = {
-            @Result(id = true, column = "id", property = "id"),
-            @Result(column = "userid", property = "userId"),
-            @Result(column = "hiredate", property = "hireDate"),
-            @Result(column = "birthday", property = "birthday"),
-            @Result(column = "gender", property = "gender"),
-            @Result(column = "phone", property = "phone"),
-            @Result(column = "id", property = "user", one = @One(select = "com.seucourse.hotelmanage.mapper.UserMapper.selectIdByUserId",
-                    fetchType = FetchType.LAZY))
-    })
-    Emp selectEmpByEmpId(Integer id);
 }

@@ -12,11 +12,8 @@ public interface UserMapper {
     @Delete("DELETE FROM user WHERE id = #{id}")
     void deleteUser(User user);
 
-    @Select("SELECT id FROM User WHERE id = #{userId} ")
-    Integer selectIdByUserId(Integer userId);
-
-    @Select("SELECT username FROM User WHERE id = #{userId} ")
-    String selectUsernameByUserId(Integer userId);
+    @Select("SELECT id, username, password, role, name FROM user WHERE id = #{userId} ")
+    User selectUserByUserId(Integer userId);
 
     @Insert("INSERT INTO user(username, password, role, name) VALUES (#{username}, #{password}, #{role}, #{name})")
     @SelectKey(keyColumn = "id", keyProperty = "id", before = false,

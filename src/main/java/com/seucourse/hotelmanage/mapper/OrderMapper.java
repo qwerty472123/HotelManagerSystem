@@ -30,8 +30,8 @@ public interface OrderMapper {
                     one = @One(select = "com.seucourse.hotelmanage.mapper.RoomMapper.selectRoomByRoomId",
                             fetchType = FetchType.LAZY)
             ),
-            @Result(column = "userId", property = "username",
-                    one = @One(select = "com.seucourse.hotelmanage.mapper.UserMapper.selectUsernameByUserId",
+            @Result(column = "userId", property = "user",
+                    one = @One(select = "com.seucourse.hotelmanage.mapper.UserMapper.selectUserByUserId",
                             fetchType = FetchType.LAZY)
             )
     })
