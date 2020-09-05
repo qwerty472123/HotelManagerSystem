@@ -33,6 +33,79 @@ public class FrontController {
     @Autowired
     RoomService roomService;
 
+    @GetMapping(path = "/order")
+    public String orderRoom(Model model){
+        model.addAttribute("tab",1);
+        model.addAttribute("roomTypes",roomService.listRoomTypes());
+        return "front_welcome";
+    }
+
+    @PostMapping(path = "/addOrder")
+    public @ResponseBody String addOrder(Model model, String roomType, Date startDate, Date endDate){
+        if(TimeUtil.getCurrentDate().after(startDate)) return "预约时间已过";
+        if (startDate.after(endDate)) return "退房日期不能早于入住日期";
+        Room room = roomService.getRoomByTypeAndTime(roomType,startDate,endDate);
+        System.out.println("预约 type " + roomType);
+        String msg="success";
+        if(null == room){
+            msg="所选时间内无此类型的可用房间!";
+            return msg;
+        }
+        Integer userId = ((User)model.getAttribute("curUser")).getId();
+        Order order = Order.builder().userId(userId)
+                .roomId(room.getId())
+                .startDate(startDate)
+                .endDate(endDate)
+                .status(1)
+                .build();
+        orderService.insertOrder(order);
+
+        return msg;
+    }
+
+    @GetMapping(path = "/removeOrder/{orderId}")
+    public @ResponseBody String removeOrder(@PathVariable("orderId") Integer orderId){
+        System.out.println("删除记录"+orderId);
+
+        String msg=orderService.deleteOrderByOrderId(orderId);
+        return msg;
+    }
+
+
+    @GetMapping(path = "/extendOrder/{orderId}")
+    public String extendOrder(Model model,@PathVariable("orderId") Integer orderId){
+        System.out.println("续约"+orderId);
+        Order order=orderService.queryOrderByOrderId(orderId);
+        System.out.println("查询结束");
+        //System.out.println(order);
+        model.addAttribute("order",order);
+        model.addAttribute("tab",3);
+        return "front_welcome";
+    }
+
+    @PostMapping(path = "/extendOrder")
+    public @ResponseBody String postExtendOrder(Model model,Integer orderId,Date endDate){
+        System.out.println("续约"+orderId+"endDate=");
+        System.out.println(endDate);
+
+        Order order=orderService.queryOrderByOrderId(orderId);
+        if (order.getEndDate().after(endDate)) return "只能延后";
+        Date d1 = new Date(order.getEndDate().getTime()+3600*1000*24);
+        Date d2=endDate;
+
+        Room room=roomService.getRoomByCheckTime(order.getRoomId(),d1,d2);
+
+        String msg="success";
+        if(null == room){
+            msg="续约失败，未来日期冲突。";
+            return msg;
+        }
+
+        order.setEndDate(d2);
+        orderService.updateOrder(order,d1,d2);
+        return "success";
+    }
+
     @GetMapping(path = "/showIn")
     public String showGoIn(Model model) {
         model.addAttribute("tab", 12);

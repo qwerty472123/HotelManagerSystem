@@ -81,9 +81,10 @@ public class GuestController {
     }
 
     @GetMapping(path = "/removeOrder/{orderId}")
-    public @ResponseBody String removeOrder(@PathVariable("orderId") Integer orderId){
+    public @ResponseBody String removeOrder(@PathVariable("orderId") Integer orderId, Model model){
         System.out.println("删除记录"+orderId);
-
+        Order order=orderService.queryOrderByOrderId(orderId);
+        if(order.getUserId() != ((User)model.getAttribute("curUser")).getId()) return "其他用户的订单";
         String msg=orderService.deleteOrderByOrderId(orderId);
         return msg;
     }
@@ -93,6 +94,7 @@ public class GuestController {
     public String extendOrder(Model model,@PathVariable("orderId") Integer orderId){
         System.out.println("续约"+orderId);
         Order order=orderService.queryOrderByOrderId(orderId);
+        if(order.getUserId() != ((User)model.getAttribute("curUser")).getId()) return "其他用户的订单";
         System.out.println("查询结束");
         //System.out.println(order);
         model.addAttribute("order",order);
@@ -106,6 +108,7 @@ public class GuestController {
         System.out.println(endDate);
 
         Order order=orderService.queryOrderByOrderId(orderId);
+        if(order.getUserId() != ((User)model.getAttribute("curUser")).getId()) return "其他用户的订单";
         if (order.getEndDate().after(endDate)) return "只能延后";
         Date d1 = new Date(order.getEndDate().getTime()+3600*1000*24);
         Date d2=endDate;

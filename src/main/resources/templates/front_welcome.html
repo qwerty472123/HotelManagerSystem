@@ -65,42 +65,42 @@
                 <h2 th:case="0">欢迎！请打开左侧菜单栏选择具体服务。</h2>
                 <div th:case="1">
 
-                    <!--                    <form style="padding: 20px" class="demo-card-square mdl-card mdl-shadow&#45;&#45;2dp" method="post"-->
-                    <!--                    th:action="@{/guest/addOrder}" onsubmit="return addOrder(this)">-->
+                                        <form style="padding: 20px" class="demo-card-square mdl-card mdl-shadow--2dp" method="post"
+                                        th:action="@{/front/addOrder}" onsubmit="return addOrder(this)">
 
-                    <!--                        <h5>房间类型</h5>-->
-                    <!--                        <div style="flex-direction: column" class="wrapper">-->
-                    <!--                            <p th:each="item,status : ${roomTypes}">-->
-                    <!--                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect"-->
-                    <!--                                       th:for="'option-'+${status.count}">-->
-                    <!--                                    <input type="radio" th:id="'option-'+${status.count}" class="mdl-radio__button"-->
-                    <!--                                           name="roomType" th:value="${item}" required>-->
-                    <!--                                    <span th:text="${item}" class="mdl-radio__label"></span>-->
-                    <!--                                </label>-->
-                    <!--                            </p>-->
-                    <!--                        </div>-->
+                                            <h5>房间类型</h5>
+                                            <div style="flex-direction: column" class="wrapper">
+                                                <p th:each="item,status : ${roomTypes}">
+                                                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect"
+                                                           th:for="'option-'+${status.count}">
+                                                        <input type="radio" th:id="'option-'+${status.count}" class="mdl-radio__button"
+                                                               name="roomType" th:value="${item}" required>
+                                                        <span th:text="${item}" class="mdl-radio__label"></span>
+                                                    </label>
+                                                </p>
+                                            </div>
 
 
-                    <!--                        <div class="mdl-textfield mdl-js-textfield mdl-textfield&#45;&#45;floating-label">-->
-                    <!--                            <h5>入住日期</h5>-->
-                    <!--                            <input name="startDate" class="mdl-textfield__input" type="date" id="sample2" required>-->
-                    <!--                            <label class="mdl-textfield__label" for="sample2"></label>-->
-                    <!--                        </div>-->
+                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                                <h5>入住日期</h5>
+                                                <input name="startDate" class="mdl-textfield__input" type="date" id="sample2" required>
+                                                <label class="mdl-textfield__label" for="sample2"></label>
+                                            </div>
 
-                    <!--                        <div class="mdl-textfield mdl-js-textfield mdl-textfield&#45;&#45;floating-label">-->
-                    <!--                            <h5>退住日期</h5>-->
-                    <!--                            <input name="endDate" class="mdl-textfield__input" type="date" id="sample3" required>-->
-                    <!--                            <label class="mdl-textfield__label" for="sample3"></label>-->
-                    <!--                        </div>-->
+                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                                <h5>退住日期</h5>
+                                                <input name="endDate" class="mdl-textfield__input" type="date" id="sample3" required>
+                                                <label class="mdl-textfield__label" for="sample3"></label>
+                                            </div>
 
-                    <!--                        &lt;!&ndash; Primary-colored flat button &ndash;&gt;-->
-                    <!--                        <div class="mdl-card__actions " style="display: flex; justify-content: center">-->
-                    <!--                            <button type="submit"-->
-                    <!--                                    class="mdl-button mdl-js-button mdl-button&#45;&#45;raised mdl-button&#45;&#45;colored mdl-js-ripple-effect">-->
-                    <!--                                预 &nbsp; 约-->
-                    <!--                            </button>-->
-                    <!--                        </div>-->
-                    <!--                    </form>-->
+                                            <!-- Primary-colored flat button -->
+                                            <div class="mdl-card__actions " style="display: flex; justify-content: center">
+                                                <button type="submit"
+                                                        class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
+                                                    预 &nbsp; 约
+                                                </button>
+                                            </div>
+                                        </form>
 
 
                 </div>
@@ -138,7 +138,7 @@
                                 </button>
                                 <a th:if="${item.status == 0}"
                                    class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
-                                   th:href="@{'/guest/extendOrder/'+${item.id}}">续约</a>
+                                   th:href="@{'/front/extendOrder/'+${item.id}}">续约</a>
                                 <button  th:if="${item.status == 0}" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
                                          th:onclick="|toGoOut(${item.getId()})|">退房</button>
                             </td>
@@ -298,6 +298,38 @@
                         </tr>
                         </tbody>
                     </table>
+                </div>
+                <div th:case="3">
+                    <form style="padding: 20px" class="demo-card-square mdl-card mdl-shadow--2dp" method="post"
+                          th:action="@{/front/extendOrder}" onsubmit="return extendOrder(this)">
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input id="orderId" name="orderId" th:value="${order.id}" type="hidden">
+                            <h5>房间类型</h5>
+                            <input name="roomType" th:value="${order.room.type}"
+                                   class="mdl-textfield__input" type="text" id="sample6" disabled>
+                            <label class="mdl-textfield__label" for="sample6"></label>
+                            <h5>入住日期</h5>
+                            <input name="startDate" th:value="${#dates.format(order.getStartDate(),'yyyy-MM-dd')}"
+                                   class="mdl-textfield__input" type="date" id="sample4" disabled>
+                            <label class="mdl-textfield__label" for="sample4"></label>
+                        </div>
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <h5>退住日期</h5>
+                            <input name="endDate" th:value="${#dates.format(order.getEndDate(),'yyyy-MM-dd')}"
+                                   class="mdl-textfield__input" type="date" id="sample30">
+                            <label class="mdl-textfield__label" for="sample30"></label>
+                        </div>
+
+                        <!-- Primary-colored flat button -->
+                        <div class="mdl-card__actions " style="display: flex; justify-content: center">
+                            <button type="submit"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
+                                续 约
+                            </button>
+                        </div>
+                    </form>
                 </div>
                 <div th:case="4">
                     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
@@ -473,15 +505,15 @@
         postData = $(th).serialize();
         console.log(postData);
         $.ajax({
-            url: '/guest/extendOrder',
+            url: '/front/extendOrder',
             type: 'post',
             data: postData,
             success: function (data) {
                 console.log(data);
                 if (data === "success") {
-                    showSnackBar("你已成功续约！");
+                    showSnackBar("已成功续约！");
                     setTimeout(function () {
-                        location.href = "/guest/showList"
+                        location.href = "/front/"
                     }, 1000);
                     return;
                 }
@@ -498,14 +530,14 @@
 
     function removeOrder(orderId) {
         $.ajax({
-            url: '/guest/removeOrder/' + orderId,
+            url: '/front/removeOrder/' + orderId,
             type: 'get',
             success: function (data) {
                 console.log(data);
                 if (data === "success") {
                     showSnackBar("取消预约成功！");
                     setTimeout(function () {
-                        location.href = "./showList"
+                        location.href = "/front/"
                     }, 1000);
                     return;
                 }
@@ -526,15 +558,15 @@
         postData = $(th).serialize();
         console.log(postData);
         $.ajax({
-            url: '/guest/addOrder',
+            url: '/front/addOrder',
             type: 'post',
             data: postData,
             success: function (data) {
                 console.log(data);
                 if (data === "success") {
-                    showSnackBar("你已成功预约！");
+                    showSnackBar("已成功添加预约记录！");
                     setTimeout(function () {
-                        location.href = "./showList"
+                        location.href = "/front/"
                     }, 1000);
                     return;
                 }
