@@ -14,6 +14,11 @@ public interface RoomMapper {
             ") AND type = #{type} LIMIT 1")
     Room selectRoomByTypeAndTime(String type, Date startDate, Date endDate);
 
+    @Select("SELECT id, name, clean, type FROM room WHERE id IN (" +
+            "SELECT roomId FROM conflict WHERE date BETWEEN #{startDate} AND #{endDate}" +
+            ")")
+    List<Room> selectRoomInTime(Date startDate, Date endDate);
+
     @Select("SELECT id, name, clean, type FROM room WHERE id NOT IN (" +
             "SELECT roomId FROM conflict WHERE date BETWEEN #{checkStart} AND #{checkEnd}" +
             ") AND id = #{id} LIMIT 1")

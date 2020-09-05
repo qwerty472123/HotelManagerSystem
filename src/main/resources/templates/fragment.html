@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+
+    <link rel="stylesheet" th:href="@{/webjars/material-design-lite/1.3.0/material.min.css}"/>
+
+    <style>
+        @font-face {
+            font-family: 'Material Icons';
+            font-style: normal;
+            font-weight: 400;
+            src: url(/static/mdl/icons.woff2) format('woff2'),
+            url(/static/mdl/icons.woff) format('woff');
+        }
+
+        body {
+            height: 100%;
+            width: 100%;
+        }
+
+        .page-content {
+            background-color: #efefef;
+        }
+
+        .wrapper {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .lli {
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .lli p {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+<div th:fragment="echart">
+    <script src="/webjars/echarts/4.7.0/dist/echarts.js"></script>
+    <h3 style="text-align: center;">房间情况</h3>
+    <div id="echart-box" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+        window.addEventListener('load', function() {
+            $.get("/common/echart", function (json) {
+                echarts.init(document.getElementById("echart-box")).setOption({
+                    tooltip: {
+                        position: 'top'
+                    },
+                    animation: false,
+                    grid: {
+                        height: '50%',
+                        top: '10%'
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: json.rooms,
+                        splitArea: {
+                            show: true
+                        }
+                    },
+                    yAxis: {
+                        type: 'category',
+                        data: json.days,
+                        splitArea: {
+                            show: true
+                        }
+                    },
+                    visualMap: {
+                        min: 0,
+                        max: json.max,
+                        calculable: true,
+                        orient: 'horizontal',
+                        left: 'center',
+                        bottom: '15%',
+                        inRange: {
+                            color: ['#efefef', '#e91c63', '#4051bf']
+                        }
+                    },
+                    series: [{
+                        name: '有人入住',
+                        type: 'heatmap',
+                        data: json.data,
+                        label: {
+                            show: true
+                        },
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }]
+                });
+            }, 'json');
+        });
+    </script>
+</div>
+</body>
+</html>

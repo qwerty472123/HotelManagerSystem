@@ -21,8 +21,6 @@ import java.util.List;
 @Controller
 @RequestMapping(path = "/front")
 public class FrontController {
-
-
     @Autowired
     OrderService orderService;
 
@@ -248,5 +246,11 @@ public class FrontController {
         Room room = rooms.get(0);
         roomService.deleteRoom(room.getId());
         return "成功";
+    }
+
+    @GetMapping(path = "/roomState")
+    public String showRoomState(Model model) {
+        model.addAttribute("tab", 0);
+        return "front_operation";
     }
 }

@@ -47,4 +47,10 @@ public class BackController {
             return "failed";
         }
     }
+
+    @GetMapping(path = "/roomState")
+    public String showRoomState(Model model) {
+        model.addAttribute("tab", 0);
+        return "back_operation";
+    }
 }

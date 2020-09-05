@@ -1,6 +1,7 @@
 package com.seucourse.hotelmanage.mapper;
 
 
+import com.seucourse.hotelmanage.entity.Conflict;
 import com.seucourse.hotelmanage.entity.Order;
 import com.seucourse.hotelmanage.provider.OrderSQLProvider;
 import org.apache.ibatis.annotations.*;
@@ -17,7 +18,6 @@ public interface OrderMapper {
 
     @SelectProvider(type = OrderSQLProvider.class, method = "createSelectSQL")
     @Results(id = "withRoomAndUser", value = {
-            //roomId, userId, startDate, endDate, status
             @Result(id = true, column = "id", property = "id"),
             @Result(column = "roomId", property = "roomId"),
             @Result(column = "userId", property = "userId"),
@@ -43,4 +43,7 @@ public interface OrderMapper {
 
     @UpdateProvider(type = OrderSQLProvider.class, method = "createUpdateSQL")
     void updateOrder(Order order);
+
+    @Select("SELECT id, roomId, userId, startDate, endDate, status FROM `order` WHERE roomId = #{roomId} AND (#{date} BETWEEN startDate AND endDate)")
+    Order selectOrderByConflict(Conflict conflict);
 }

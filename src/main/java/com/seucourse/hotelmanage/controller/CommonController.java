@@ -1,29 +1,26 @@
 package com.seucourse.hotelmanage.controller;
 
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import com.seucourse.hotelmanage.entity.EChartInfo;
+import com.seucourse.hotelmanage.service.ConflictService;
+import com.seucourse.hotelmanage.util.TimeUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@ControllerAdvice
+@Controller
+@RequestMapping(path = "/common")
 public class CommonController {
+    @Autowired
+    private ConflictService conflictService;
 
-    @InitBinder
-    public void initBinder(WebDataBinder dataBinder) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        format.setLenient(true);
-        dataBinder.registerCustomEditor(Date.class, new CustomDateEditor(format, true));
+    @GetMapping(path = "/echart")
+    @ResponseBody
+    public EChartInfo getEChartInfo() {
+        return conflictService.getEChartInfo(TimeUtil.getCurrentDate(),
+                new Date(TimeUtil.getCurrentDate().getTime() + 7 * 1000 * 3600 * 24));
     }
-
-    @ModelAttribute
-    public void populateUserName(HttpServletRequest request, Model model) {
-        model.addAttribute("curUser", request.getAttribute("curUser"));
-    }
-
 }

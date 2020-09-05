@@ -3,6 +3,9 @@ package com.seucourse.hotelmanage.mapper;
 import com.seucourse.hotelmanage.entity.Conflict;
 import org.apache.ibatis.annotations.*;
 
+import java.util.Date;
+import java.util.List;
+
 @Mapper
 public interface ConflictMapper {
     @Select("SELECT COUNT(*)" +
@@ -16,4 +19,7 @@ public interface ConflictMapper {
     @SelectKey(keyColumn = "id", keyProperty = "id", before = false,
             statement = "SELECT LAST_INSERT_ID()", resultType = Integer.class)
     void insertConflict(Conflict conflict);
+
+    @Select("SELECT id, roomId, date FROM conflict WHERE date BETWEEN #{startDate} AND #{endDate}")
+    List<Conflict> selectConflicts(Date startDate, Date endDate);
 }
