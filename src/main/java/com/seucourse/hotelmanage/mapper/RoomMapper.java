@@ -31,6 +31,6 @@ public interface RoomMapper {
     @Select("SELECT DISTINCT type FROM room")
     List<String> selectTypes();
 
-    @Select("SELECT id, name, clean, type FROM room WHERE id = #roomId")
+    @Select("SELECT id, name, clean, type FROM room WHERE id = #{roomId}")
     Room selectRoomByRoomId(Integer roomId);
 }
