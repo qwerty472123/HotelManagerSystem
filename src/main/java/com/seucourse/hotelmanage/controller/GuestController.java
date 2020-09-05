@@ -6,13 +6,17 @@ import com.seucourse.hotelmanage.entity.User;
 import com.seucourse.hotelmanage.service.OrderService;
 import com.seucourse.hotelmanage.service.RoomService;
 import com.seucourse.hotelmanage.service.UserService;
+import com.seucourse.hotelmanage.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.sound.midi.Soundbank;
 import javax.xml.stream.events.EndDocument;
+import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
@@ -60,6 +64,8 @@ public class GuestController {
 
     @PostMapping(path = "/addOrder")
     public @ResponseBody String addOrder(Model model, String roomType, Date startDate, Date endDate){
+        if(TimeUtil.getCurrentDate().after(startDate)) return "预约时间已过";
+        if (startDate.after(endDate)) return "退房日期不能早于入住日期";
         Room room = roomService.getRoomByTypeAndTime(roomType,startDate,endDate);
         System.out.println("预约 type " + roomType);
         String msg="success";
@@ -105,7 +111,7 @@ public class GuestController {
         System.out.println(endDate);
 
         Order order=orderService.queryOrderByOrderId(orderId);
-
+        if (order.getEndDate().after(endDate)) return "只能延后";
         Date d1 = new Date(order.getEndDate().getTime()+3600*1000*24);
         Date d2=endDate;
 

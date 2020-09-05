@@ -49,9 +49,10 @@
     <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">Hotel 服务</span>
         <nav class="mdl-navigation">
-            <a class="mdl-navigation__link" href="/guest/order">预约</a>
-            <a class="mdl-navigation__link" href="/guest/showList">预约/入住记录</a>
+            <a class="mdl-navigation__link" href="/front/order">预约</a>
+            <a class="mdl-navigation__link" href="/front/">全部预约/入住记录</a>
             <a class="mdl-navigation__link" href="/front/userManage">账号管理</a>
+            <a class="mdl-navigation__link" href="/front/showIn">查看当天未入住记录</a>
             <a class="mdl-navigation__link" href="/user/logout">注销</a>
         </nav>
     </div>
@@ -102,7 +103,7 @@
 
                 </div>
                 <div th:case="2">
-                    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                         <thead>
                         <tr>
                             <th>序号</th>
@@ -129,6 +130,37 @@
                                          th:onclick="|removeOrder(${item.getId()})|">取消预约</button>
                                 <a  th:if="${item.status == 0}" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
                                          th:href="@{'/guest/extendOrder/'+${item.id}}">续约</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:case="12">
+                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>姓名</th>
+                            <th>房间类型</th>
+                            <th>房间号</th>
+                            <th>入住时间</th>
+                            <th>退房时间</th>
+                            <th>当前状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item,status :${orderList}">
+                            <td th:text="${status.count}"></td>
+                            <td th:text="${item.user.name}"></td>
+                            <td th:text="${item.room.type}"></td>
+                            <td th:text="${item.room.name}"></td>
+                            <td th:text="${#dates.format(item.getStartDate(),'yyyy-MM-dd')}"></td>
+                            <td th:text="${#dates.format(item.getEndDate(),'yyyy-MM-dd')}"></td>
+                            <td th:text="${item.statusDesc}"></td>
+                            <td>
+                                <button  th:if="${item.status == 1}" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
+                                         th:onclick="|toGoIn(${item.getId()})|">办理入住</button>
                             </td>
                         </tr>
                         </tbody>

@@ -7,6 +7,7 @@ import com.seucourse.hotelmanage.mapper.OrderMapper;
 import com.seucourse.hotelmanage.service.OrderService;
 import com.seucourse.hotelmanage.service.RoomService;
 import com.seucourse.hotelmanage.service.UserService;
+import com.seucourse.hotelmanage.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,14 @@ public class FrontController {
 
     @Autowired
     UserService userService;
+
+    @GetMapping(path = "/showIn")
+    public String showGoIn(Model model) {
+        model.addAttribute("tab", 12);
+        Order order=Order.builder().startDate(TimeUtil.getCurrentDate()).status(1).build();
+        List<Order> orders=orderService.listOrder(order);
+        return "front_welcome";
+    }
 
     @GetMapping(path = "/")
     public String showRecList(Model model) {
@@ -50,7 +59,6 @@ public class FrontController {
         model.addAttribute("userList",users);
 
         return "front_welcome";
-
     }
 
 }
