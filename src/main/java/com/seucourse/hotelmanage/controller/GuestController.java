@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.xml.stream.events.EndDocument;
 import java.util.Date;
 import java.util.List;
 
@@ -86,6 +87,40 @@ public class GuestController {
         return msg;
     }
 
+
+    @GetMapping(path = "/extendOrder/{orderId}")
+    public String extendOrder(Model model,@PathVariable("orderId") Integer orderId){
+        System.out.println("续约"+orderId);
+        Order order=orderService.queryOrderByOrderId(orderId);
+        System.out.println("查询结束");
+        //System.out.println(order);
+        model.addAttribute("order",order);
+        model.addAttribute("tab",3);
+        return "guest_welcome";
+    }
+
+    @PostMapping(path = "/extendOrder")
+    public @ResponseBody String postExtendOrder(Model model,Integer orderId,Date endDate){
+        System.out.println("续约"+orderId+"endDate=");
+        System.out.println(endDate);
+
+        Order order=orderService.queryOrderByOrderId(orderId);
+
+        Date d1 = new Date(order.getEndDate().getTime()+3600*1000*24);
+        Date d2=endDate;
+
+        Room room=roomService.getRoomByCheckTime(order.getRoomId(),d1,d2);
+
+        String msg="success";
+        if(null == room){
+            msg="续约失败，未来日期冲突。";
+            return msg;
+        }
+
+        order.setEndDate(d2);
+        orderService.updateOrder(order);
+        return "success";
+    }
 
 
     @GetMapping(path = "/showList")

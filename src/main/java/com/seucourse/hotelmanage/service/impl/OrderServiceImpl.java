@@ -56,5 +56,15 @@ public class OrderServiceImpl implements OrderService {
         return msg;
     }
 
+    @Override
+    public Order queryOrderByOrderId(Integer orderId) {
+        Order order=Order.builder().id(orderId).build();
+        return orderMapper.selectAllOrders(order).get(0);
+    }
+
+    @Override
+    public void updateOrder(Order order) {
+        orderMapper.updateOrder(order);
+    }
 
 }

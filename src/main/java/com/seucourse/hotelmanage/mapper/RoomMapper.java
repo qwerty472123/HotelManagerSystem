@@ -14,6 +14,11 @@ public interface RoomMapper {
             ") AND type = #{type} LIMIT 1")
     Room selectRoomByTypeAndTime(String type, Date startDate, Date endDate);
 
+    @Select("SELECT id, name, clean, type FROM room WHERE id NOT IN (" +
+            "SELECT roomId FROM conflict WHERE date BETWEEN #{checkStart} AND #{checkEnd}" +
+            ") AND id = #{id} LIMIT 1")
+    Room selectRoomByCheckTime(Integer id, Date checkStart, Date checkEnd);
+
     @Insert("INSERT INTO room(name, clean, type) VALUES (#{name}, #{clean}, #{type})")
     @SelectKey(keyColumn = "id", keyProperty = "id", before = false,
             statement = "SELECT LAST_INSERT_ID()", resultType = Integer.class)

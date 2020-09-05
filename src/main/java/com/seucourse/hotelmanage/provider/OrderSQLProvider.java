@@ -23,4 +23,26 @@ public class OrderSQLProvider {
             ORDER_BY("status, startDate");
         }}.toString();
     }
+
+    public String createUpdateSQL(Order order){
+        return new SQL(){{
+            UPDATE("`order`");
+            if (null != order.getRoomId()){
+                SET("roomId = #{roomId}");
+            }
+            if (null != order.getUserId()){
+                SET("userId = #{userId}");
+            }
+            if (null != order.getStartDate()){
+                SET("startDate = #{startDate}");
+            }
+            if (null != order.getEndDate()){
+                SET("endDate = #{endDate}");
+            }
+            if (null != order.getStatus()){
+                SET("status = #{status}");
+            }
+            WHERE("id = #{id}");
+        }}.toString();
+    }
 }

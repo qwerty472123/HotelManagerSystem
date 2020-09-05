@@ -9,4 +9,6 @@ public interface OrderService {
     List<Order> queryOrdersByUserId(Integer userId);
     void insertOrder(Order order);
     String deleteOrderByOrderId(Integer orderId);
+    Order queryOrderByOrderId(Integer orderId);
+    void updateOrder(Order order);
 }

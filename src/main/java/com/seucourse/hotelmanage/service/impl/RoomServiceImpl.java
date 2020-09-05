@@ -44,6 +44,11 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public Room getRoomByCheckTime(Integer id, Date checkStart, Date checkEnd) {
+        return roomMapper.selectRoomByCheckTime(id,checkStart,checkEnd);
+    }
+
+    @Override
     public void deleteRoom(Integer roomId) {
         roomMapper.deleteRoom(roomId);
     }

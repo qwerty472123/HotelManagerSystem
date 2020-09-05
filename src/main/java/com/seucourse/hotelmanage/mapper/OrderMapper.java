@@ -39,4 +39,7 @@ public interface OrderMapper {
 
     @Delete("DELETE FROM `order` WHERE id=#{orderId}")
     void deleteOrderByOrderId(Integer orderId);
+
+    @UpdateProvider(type = OrderSQLProvider.class , method="createUpdateSQL")
+    void updateOrder(Order order);
 }

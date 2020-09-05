@@ -16,5 +16,7 @@ public interface RoomService {
 
     Room getRoomByTypeAndTime(String type, Date startDate, Date endDate);
 
+    Room getRoomByCheckTime(Integer id, Date checkStart, Date checkEnd);
+
     void deleteRoom(Integer roomId);
 }
