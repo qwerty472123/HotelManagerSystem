@@ -204,6 +204,20 @@ public class FrontController {
         return "front_welcome";
     }
 
+    @GetMapping(path = "/addRoom")
+    public String toAddRoom(Model model) {
+        model.addAttribute("tab",23);
+        return "front_welcome";
+    }
+
+    @PostMapping(path = "/addRoom")
+    @ResponseBody
+    public String doAddRoom(Model model, Room room) {
+        room.setClean(1);
+        roomService.addRoom(room);
+        return "success";
+    }
+
     @GetMapping(path = "/showRoom")
     public String showRooms(Model model) {
         model.addAttribute("tab",22);
