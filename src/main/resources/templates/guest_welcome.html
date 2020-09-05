@@ -107,6 +107,7 @@
                         <tr>
                             <th>序号</th>
                             <th>姓名</th>
+                            <th>房间类型</th>
                             <th>入住时间</th>
                             <th>退房时间</th>
                             <th>当前状态</th>
@@ -117,6 +118,7 @@
                         <tr th:each="item,status :${orderList}">
                             <td th:text="${status.count}"></td>
                             <td th:text="${item.user.name}"></td>
+                            <td th:text="${item.room.type}"></td>
                             <td th:text="${#dates.format(item.getStartDate(),'yyyy-MM-dd')}"></td>
                             <td th:text="${#dates.format(item.getEndDate(),'yyyy-MM-dd')}"></td>
                             <td th:text="${item.statusDesc}"></td>
@@ -156,10 +158,13 @@
             type: 'get',
             success: function(data){
                 console.log(data);
-                showSnackBar(data);
-                setTimeout(function () {
-                    location.reload()
-                },1000);
+                if (data === "success") {
+                    showSnackBar("取消预约成功！");
+                    setTimeout(function () {
+                        location.href = "./showList"
+                    },1000);
+                    return;
+                }
                 //document.querySelector("#dlgMsg").innerHTML=data;
             },
             error: function (error){  //请求失败之后，打印错误信息

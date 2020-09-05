@@ -47,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
             conflictMapper.deleteConflict(Conflict.builder().roomId(order.getRoomId()).date(new Date(time)).build());
         }
         orderMapper.deleteOrderByOrderId(orderId);
-        msg="成功取消预约！";
+        msg="success";
         return msg;
     }
 
