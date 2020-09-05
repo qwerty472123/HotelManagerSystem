@@ -121,7 +121,8 @@
                             <td th:text="${#dates.format(item.getEndDate(),'yyyy-MM-dd')}"></td>
                             <td th:text="${item.statusDesc}"></td>
                             <td>
-                                <button  th:disabled="${item.status != 1}" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect" th:onclick="|deleteOrder(${item.getId()})|">取消预约</button>
+                                <button  th:disabled="${item.status != 1}" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
+                                         th:onclick="|removeOrder(${item.getId()})|">取消预约</button>
                             </td>
                         </tr>
                         </tbody>
@@ -147,6 +148,29 @@
         new MaterialSnackbar(document.getElementById('info-snackbar')).showSnackbar({
             message: text
         });
+    }
+
+    function removeOrder(orderId){
+        $.ajax({
+            url: '/guest/removeOrder/'+orderId,
+            type: 'get',
+            success: function(data){
+                console.log(data);
+                if (data === "success") {
+                    showSnackBar("取消预约成功！");
+                    setTimeout(function () {
+                        location.href = "./showList"
+                    },1000);
+                    return;
+                }
+                showSnackBar(data);
+                //document.querySelector("#dlgMsg").innerHTML=data;
+            },
+            error: function (error){  //请求失败之后，打印错误信息
+                showSnackBar("请求出错");
+                console.log(error);
+            }
+        })
     }
 
     function addOrder(){

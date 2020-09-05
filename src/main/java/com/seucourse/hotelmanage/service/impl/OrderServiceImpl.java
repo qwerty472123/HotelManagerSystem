@@ -42,6 +42,9 @@ public class OrderServiceImpl implements OrderService {
         if(orders.get(0).getStatus()!=1){
             return msg;
         }
+        for(long time = order.getStartDate().getTime(); time <= order.getEndDate().getTime(); time += 3600 * 1000 * 24) {
+            conflictMapper.deleteConflict(Conflict.builder().roomId(order.getRoomId()).date(new Date(time)).build());
+        }
         orderMapper.deleteOrderByOrderId(orderId);
         msg="成功取消预约！";
         return msg;
