@@ -1,9 +1,11 @@
 package com.seucourse.hotelmanage.controller;
 
+import com.seucourse.hotelmanage.entity.Occupy;
 import com.seucourse.hotelmanage.entity.Order;
 import com.seucourse.hotelmanage.entity.Room;
 import com.seucourse.hotelmanage.entity.User;
 import com.seucourse.hotelmanage.mapper.OrderMapper;
+import com.seucourse.hotelmanage.service.OccupyService;
 import com.seucourse.hotelmanage.service.OrderService;
 import com.seucourse.hotelmanage.service.RoomService;
 import com.seucourse.hotelmanage.service.UserService;
@@ -11,9 +13,7 @@ import com.seucourse.hotelmanage.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +28,9 @@ public class FrontController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    OccupyService occupyService;
+
     @GetMapping(path = "/showIn")
     public String showGoIn(Model model) {
         model.addAttribute("tab", 12);
@@ -37,11 +40,31 @@ public class FrontController {
         return "front_welcome";
     }
 
+    @GetMapping(path = "/occupy/{orderId}")
+    public String showOccupy(Model model, @PathVariable("orderId") Integer orderId) {
+        model.addAttribute("tab",14);
+        model.addAttribute("occupy", occupyService.listOccupy(Occupy.builder().orderId(orderId).build()));
+        return "front_welcome";
+    }
+
     @GetMapping(path = "/in/{orderId}")
     public String toIn(Model model, @PathVariable("orderId") Integer orderId) {
         model.addAttribute("tab",13);
         model.addAttribute("order", orderService.queryOrderByOrderId(orderId));
         return "front_welcome";
+    }
+
+    @PostMapping(path = "/in/{orderId}")
+    @ResponseBody
+    public String doIn(@PathVariable("orderId") Integer orderId,
+                       @RequestParam(value = "name[]") String[] name,
+                       @RequestParam(value = "certId[]") String[] certId) {
+        if (orderService.updateStatus(orderId, 0) !=0 ) return "出现错误";
+        int len = Math.min(name.length, certId.length);
+        for(int i=0;i<len;i++){
+            occupyService.addOccupy(Occupy.builder().orderId(orderId).name(name[i]).certId(certId[i]).build());
+        }
+        return "success";
     }
 
     @GetMapping(path = "/showOut")

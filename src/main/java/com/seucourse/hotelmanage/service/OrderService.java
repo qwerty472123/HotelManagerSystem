@@ -12,4 +12,5 @@ public interface OrderService {
     String deleteOrderByOrderId(Integer orderId);
     Order queryOrderByOrderId(Integer orderId);
     void updateOrder(Order order, Date d1, Date d2);
+    Integer updateStatus(Integer orderId, Integer status);
 }

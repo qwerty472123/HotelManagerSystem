@@ -72,4 +72,15 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.updateOrder(order);
     }
 
+    @Override
+    public Integer updateStatus(Integer orderId, Integer status) {
+        try {
+            orderMapper.updateOrder(Order.builder().id(orderId).status(status).build());
+            return 0;
+        } catch (Exception err) {
+            err.printStackTrace();
+            return -1;
+        }
+    }
+
 }

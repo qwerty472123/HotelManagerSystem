@@ -22,7 +22,7 @@ public class OccupySQLProvider {
     }
     public String createSelectSQL(Occupy occupy) {
         return new SQL(){{
-            SELECT("id, roomId, name, certId");
+            SELECT("id, orderId, name, certId");
             FROM("occupy");
             if(occupy != null) {
                 if (null != occupy.getOrderId()) {

@@ -140,8 +140,26 @@
                         </tbody>
                     </table>
                 </div>
+                <div th:case="14">
+                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>姓名</th>
+                            <th>身份证号</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item,status :${occupy}">
+                            <td th:text="${status.count}"></td>
+                            <td th:text="${item.name}"></td>
+                            <td th:text="${item.certId}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div th:case="13">
-                    <div style="padding: 20px" class="demo-card-square mdl-card mdl-shadow--2dp">
+                    <div>
                         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                             <thead>
                             <tr>
@@ -150,12 +168,19 @@
                                 <th>操作</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="js-all">
                             <tr>
-                                <td><input name="js-name" th:value="${order.user.name}"
-                                           class="mdl-textfield__input" type="text"></td>
-                                <td><input name="js-certId" th:value="${order.user.name}"
-                                           class="mdl-textfield__input" type="text"></td>
+                                <td>
+                                    <span class="mdl-textfield mdl-js-textfield">
+                                        <input id="js-name" th:value="${order.user.name}"
+                                                class="mdl-textfield__input" type="text">
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="mdl-textfield mdl-js-textfield">
+                                        <input id="js-certId" class="mdl-textfield__input" type="text">
+                                    </span>
+                                </td>
                                 <td>
                                     <button class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
                                             onclick="toAdd()">添加
@@ -164,14 +189,60 @@
                             </tr>
                             </tbody>
                         </table>
-                        <p>
-                            <button class="mdl-button mdl-js-button mdl-button-- mdl-js-ripple-effect"
+                        <p style="text-align: right; padding-top: 20px">
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect"
                                     onclick="toSubmit()">提交
                             </button>
                         </p>
                     </div>
                     <script type="text/javascript">
-
+                        let list = [];
+                        function toAdd() {
+                            let name = document.getElementById("js-name").value;
+                            let id = document.getElementById("js-certId").value;
+                            document.getElementById("js-name").value = '';
+                            document.getElementById("js-certId").value = '';
+                            list.push([name, id]);
+                            let newTr = document.createElement("tr");
+                            let td = document.createElement('td');
+                            td.innerText = name;
+                            newTr.appendChild(td);
+                            td = document.createElement('td');
+                            td.innerText = id;
+                            newTr.appendChild(td);
+                            td = document.createElement('td');
+                            let button = document.createElement("button");
+                            button.className = 'mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect';
+                            button.innerText = "删除";
+                            td.appendChild(button);
+                            newTr.appendChild(td);
+                            document.getElementById("js-all").appendChild(newTr);
+                            componentHandler.upgradeElement(button);
+                            button.onclick = function () {
+                                for(let i=0;i<list.length;i++){
+                                    if(list[i][0]===name&&list[i][1]===id){
+                                        list.splice(i, 1);
+                                        break;
+                                    }
+                                }
+                                document.getElementById("js-all").removeChild(newTr);
+                            }
+                        }
+                        function toSubmit() {
+                            $.post('', {
+                                name: list.map(e=>e[0]),
+                                certId: list.map(e=>e[1])
+                            }, function(e) {
+                                if(e=="success"){
+                                    showSnackBar("入住成功");
+                                    setTimeout(()=>{
+                                        location.href="/front/showIn"
+                                    },1000);
+                                    return;
+                                }
+                                showSnackBar(e);
+                            });
+                        }
                     </script>
                 </div>
                 <div th:case="12">
