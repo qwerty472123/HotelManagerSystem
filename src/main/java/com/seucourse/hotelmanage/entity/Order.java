@@ -17,4 +17,7 @@ public class Order {
     private Integer userId;
     private Date startDate, endDate;
     private Integer status; //0-occupy 1-被预定 2-空闲
+
+    private Room room;
+    private String username;
 }

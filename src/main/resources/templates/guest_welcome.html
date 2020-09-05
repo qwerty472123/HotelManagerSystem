@@ -91,7 +91,7 @@
 
                         <!-- Primary-colored flat button -->
                         <div class="mdl-card__actions " style="display: flex; justify-content: center">
-                            <button type="submit"
+                            <button type="button"
                                     onclick="addOrder()"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
                                 预 &nbsp; 约
@@ -105,7 +105,8 @@
                     <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
                         <thead>
                         <tr>
-                            <th class="mdl-data-table__cell--non-numeric">用户id</th>
+                            <th>序号</th>
+                            <th>用户名</th>
                             <th>入住时间</th>
                             <th>退房时间</th>
                             <th>当前状态</th>
@@ -113,28 +114,73 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
-                            <td>25</td>
-                            <td>$2.90</td>
+                        <tr th:each="item,status :${orderList}">
+                            <td th:text="${status.count}"></td>
+                            <td th:text="${item.getUsername()}"></td>
+                            <td th:text="${#dates.format(item.getStartDate(),'yyyy-MM-dd')}"></td>
+                            <td th:text="${#dates.format(item.getEndDate(),'yyyy-MM-dd')}"></td>
+                            <td th:switch="${item.getStatus()}">
+                                <span th:case="1">已预约</span>
+                            </td>
+                            <td>
+                                <button>取消预约</button>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-
-
-
-
         </div>
     </main>
 </div>
 
+<dialog class="mdl-dialog">
+    <h4 class="mdl-dialog__title">预约结果</h4>
+    <div class="mdl-dialog__content">
+        <p id="dlgMsg">
+
+        </p>
+    </div>
+    <div class="mdl-dialog__actions">
+        <button type="button" class="mdl-button close">关闭</button>
+    </div>
+</dialog>
+
+<script src="/webjars/jquery/3.2.1/dist/jquery.js"></script>
 <script th:src="@{/webjars/material-design-lite/1.3.0/material.min.js}"></script>
 <script type="text/javascript">
-    function addOrder(){
 
+    //Material dialog
+    var dialog = document.querySelector('dialog');
+    if (! dialog.showModal) {
+        dialogPolyfill.registerDialog(dialog);
+    }
+    dialog.querySelector('.close').addEventListener('click', function() {
+        dialog.close();
+    });
+    //Material dialog
+
+    function addOrder(){
+        dialog.showModal();
+        postData={
+            roomType: document.querySelector("input[name='roomType']").value,
+            startDate: document.querySelector("input[name='startDate']").value,
+            endDate: document.querySelector("input[name='endDate']").value
+        };
+        console.log(postData);
+        $.ajax({
+            url: '/guest/addOrder',
+            type: 'post',
+            data: postData,
+            success: function(data){
+                console.log(data);
+                document.querySelector("#dlgMsg").innerHTML=data;
+            },
+            error: function (error){  //请求失败之后，打印错误信息
+                console.log(error);
+            }
+        })
     }
 </script>
 </body>

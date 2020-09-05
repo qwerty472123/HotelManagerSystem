@@ -13,7 +13,10 @@ public interface UserMapper {
     void deleteUser(User user);
 
     @Select("SELECT id FROM User WHERE id = #{userId} ")
-    void selectIdByUserId(Integer userId);
+    Integer selectIdByUserId(Integer userId);
+
+    @Select("SELECT username FROM User WHERE id = #{userId} ")
+    String selectUsernameByUserId(Integer userId);
 
     @Insert("INSERT INTO user(username, password, role, name) VALUES (#{username}, #{password}, #{role}, #{name})")
     @SelectKey(keyColumn = "id", keyProperty = "id", before = false,

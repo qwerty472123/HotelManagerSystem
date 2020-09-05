@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping(path = "/guest")
@@ -63,7 +64,7 @@ public class GuestController {
     public @ResponseBody String addOrder(Model model, String roomType, Date startDate, Date endDate){
         Room room = roomService.getRoomByTypeAndTime(roomType,startDate,endDate);
         System.out.println("type + " + roomType);
-        String msg="success";
+        String msg="你已成功预约！请转至预约/入住记录中查看。";
         if(null == room){
             msg="所选时间内无此类型的可用房间!";
             return msg;
@@ -83,10 +84,10 @@ public class GuestController {
 
     @GetMapping(path = "/showList")
     public String showRecList(Model model){
-
-        Integer userId=((User)model.getAttribute("curUser")).getId();
+        User user = (User)model.getAttribute("curUser");
         model.addAttribute("tab",2);
-        model.addAttribute("orderList",orderService.queryOrdersByUserId(userId));
+        List<Order> orders = orderService.queryOrdersByUserId(user.getId());
+        model.addAttribute("orderList",orders);
         return "guest_welcome";
     }
 
