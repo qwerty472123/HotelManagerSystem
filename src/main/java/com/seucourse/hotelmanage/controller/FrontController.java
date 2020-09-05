@@ -1,9 +1,7 @@
 package com.seucourse.hotelmanage.controller;
 
-import com.seucourse.hotelmanage.entity.Occupy;
-import com.seucourse.hotelmanage.entity.Order;
-import com.seucourse.hotelmanage.entity.Room;
-import com.seucourse.hotelmanage.entity.User;
+import com.seucourse.hotelmanage.entity.*;
+import com.seucourse.hotelmanage.mapper.ConflictMapper;
 import com.seucourse.hotelmanage.mapper.OrderMapper;
 import com.seucourse.hotelmanage.service.OccupyService;
 import com.seucourse.hotelmanage.service.OrderService;
@@ -15,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -64,6 +63,21 @@ public class FrontController {
         for(int i=0;i<len;i++){
             occupyService.addOccupy(Occupy.builder().orderId(orderId).name(name[i]).certId(certId[i]).build());
         }
+        return "success";
+    }
+
+    @PostMapping(path = "/out")
+    @ResponseBody
+    public String doOut(Integer id) {
+        List<Order> orders = orderService.listOrder(Order.builder().id(id).build());
+        if (orders.size() != 1) {
+            return "订单错误";
+        }
+        Order order = orders.get(0);
+        if (order.getEndDate().after(TimeUtil.getCurrentDate())) {
+            orderService.accOrder(order, TimeUtil.getCurrentDate());
+        }
+        orderService.updateStatus(id, 2);
         return "success";
     }
 

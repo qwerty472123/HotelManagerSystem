@@ -13,4 +13,5 @@ public interface OrderService {
     Order queryOrderByOrderId(Integer orderId);
     void updateOrder(Order order, Date d1, Date d2);
     Integer updateStatus(Integer orderId, Integer status);
+    void accOrder(Order order, Date pre);
 }

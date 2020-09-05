@@ -146,7 +146,19 @@
                         </tbody>
                     </table>
                     <script type="text/javascript">
-                        function toGoOut
+                        function toGoOut(id) {
+                            $.post('/front/out', {
+                                id: id
+                            }, function (e) {
+                                if(e=="success") {
+                                    showSnackBar("成功退房");
+                                }
+                                showSnackBar(e);
+                                setTimeout(()=>{
+                                    location.reload();
+                                },1000);
+                            });
+                        }
                     </script>
                 </div>
                 <div th:case="14">

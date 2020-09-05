@@ -5,6 +5,7 @@ import com.seucourse.hotelmanage.entity.Order;
 import com.seucourse.hotelmanage.mapper.ConflictMapper;
 import com.seucourse.hotelmanage.mapper.OrderMapper;
 import com.seucourse.hotelmanage.service.OrderService;
+import com.seucourse.hotelmanage.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -81,6 +82,16 @@ public class OrderServiceImpl implements OrderService {
             err.printStackTrace();
             return -1;
         }
+    }
+
+    @Override
+    public void accOrder(Order order, Date pre) {
+        for(long time = pre.getTime() + 3600 * 1000 * 24;
+            time <= order.getEndDate().getTime(); time += 3600 * 1000 * 24) {
+            conflictMapper.deleteConflict(Conflict.builder().roomId(order.getRoomId()).date(new Date(time)).build());
+        }
+        order.setEndDate(pre);
+        orderMapper.updateOrder(order);
     }
 
 }
