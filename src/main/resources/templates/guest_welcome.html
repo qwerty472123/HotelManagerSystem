@@ -119,11 +119,9 @@
                             <td th:text="${item.getUsername()}"></td>
                             <td th:text="${#dates.format(item.getStartDate(),'yyyy-MM-dd')}"></td>
                             <td th:text="${#dates.format(item.getEndDate(),'yyyy-MM-dd')}"></td>
-                            <td th:switch="${item.getStatus()}">
-                                <span th:case="1">已预约</span>
-                            </td>
+                            <td th:text="${item.statusDesc}"></td>
                             <td>
-                                <button>取消预约</button>
+                                <button th:disabled="${item.status != 1}" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect">取消预约</button>
                             </td>
                         </tr>
                         </tbody>
@@ -135,21 +133,21 @@
     </main>
 </div>
 
-<dialog class="mdl-dialog">
-    <h4 class="mdl-dialog__title">预约结果</h4>
-    <div class="mdl-dialog__content">
-        <p id="dlgMsg">
-
-        </p>
-    </div>
-    <div class="mdl-dialog__actions">
-        <button type="button" class="mdl-button close">关闭</button>
-    </div>
-</dialog>
-
 <script src="/webjars/jquery/3.2.1/dist/jquery.js"></script>
 <script th:src="@{/webjars/material-design-lite/1.3.0/material.min.js}"></script>
+
+<div id="info-snackbar" class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
+</div>
+
 <script type="text/javascript">
+
+    function showSnackBar(text) {
+        new MaterialSnackbar(document.getElementById('info-snackbar')).showSnackbar({
+            message: text
+        });
+    }
 
     //Material dialog
     var dialog = document.querySelector('dialog');
@@ -162,7 +160,6 @@
     //Material dialog
 
     function addOrder(){
-        dialog.showModal();
         postData={
             roomType: document.querySelector("input[name='roomType']").value,
             startDate: document.querySelector("input[name='startDate']").value,
@@ -175,9 +172,18 @@
             data: postData,
             success: function(data){
                 console.log(data);
-                document.querySelector("#dlgMsg").innerHTML=data;
+                if (data === "success") {
+                    showSnackBar("你已成功预约！");
+                    setTimeout(function () {
+                        location.href = "./showList"
+                    },1000);
+                    return;
+                }
+                showSnackBar(data);
+                //document.querySelector("#dlgMsg").innerHTML=data;
             },
             error: function (error){  //请求失败之后，打印错误信息
+                showSnackBar("请求出错");
                 console.log(error);
             }
         })

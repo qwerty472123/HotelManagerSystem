@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(path = "/emp")
+@RequestMapping(path = "/manager")
 public class ManagerController {
     @Autowired
     private EmpService empService;

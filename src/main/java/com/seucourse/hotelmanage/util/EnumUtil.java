@@ -29,4 +29,16 @@ public class EnumUtil {
                 return "未知";
         }
     }
+    public static String getOrderStatusCN(Integer id) {
+        switch (id) {
+            case 0:
+                return "已入住";
+            case 1:
+                return "已预约";
+            case 2:
+                return "已退房";
+            default:
+                return "未知";
+        }
+    }
 }

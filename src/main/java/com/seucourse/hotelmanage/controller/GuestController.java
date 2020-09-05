@@ -64,7 +64,7 @@ public class GuestController {
     public @ResponseBody String addOrder(Model model, String roomType, Date startDate, Date endDate){
         Room room = roomService.getRoomByTypeAndTime(roomType,startDate,endDate);
         System.out.println("type + " + roomType);
-        String msg="你已成功预约！请转至预约/入住记录中查看。";
+        String msg="success";
         if(null == room){
             msg="所选时间内无此类型的可用房间!";
             return msg;
