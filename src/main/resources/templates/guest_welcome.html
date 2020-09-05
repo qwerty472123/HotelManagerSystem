@@ -128,10 +128,20 @@
                                          th:onclick="|removeOrder(${item.getId()})|">取消预约</button>
                                 <a  th:if="${item.status == 0}" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
                                          th:href="@{'/guest/extendOrder/'+${item.id}}">续约</a>
+                                <button th:if="${item.status == 0 && item.room.clean == 1}" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
+                                    th:onclick="|doBJ(${item.getId()})|">要求保洁</button>
                             </td>
                         </tr>
                         </tbody>
                     </table>
+                    <script type="text/javascript">
+                        function doBJ(id) {
+                            $.post("/guest/bj", {id:id}, function (e) {
+                                showSnackBar(e);
+                                setTimeout(()=>location.reload(),1000);
+                            })
+                        }
+                    </script>
                 </div>
                 <div th:case="3">
                     <form style="padding: 20px" class="demo-card-square mdl-card mdl-shadow--2dp" method="post"

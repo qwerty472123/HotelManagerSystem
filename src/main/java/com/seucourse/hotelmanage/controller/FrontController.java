@@ -30,6 +30,9 @@ public class FrontController {
     @Autowired
     OccupyService occupyService;
 
+    @Autowired
+    RoomService roomService;
+
     @GetMapping(path = "/showIn")
     public String showGoIn(Model model) {
         model.addAttribute("tab", 12);
@@ -78,6 +81,7 @@ public class FrontController {
             orderService.accOrder(order, TimeUtil.getCurrentDate());
         }
         orderService.updateStatus(id, 2);
+        roomService.updateRoom(Room.builder().id(order.getRoomId()).clean(0).build());
         return "success";
     }
 

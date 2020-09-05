@@ -8,15 +8,10 @@ import com.seucourse.hotelmanage.service.RoomService;
 import com.seucourse.hotelmanage.service.UserService;
 import com.seucourse.hotelmanage.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-import javax.sound.midi.Soundbank;
-import javax.xml.stream.events.EndDocument;
-import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
@@ -136,5 +131,16 @@ public class GuestController {
         List<Order> orders = orderService.queryOrdersByUserId(user.getId());
         model.addAttribute("orderList",orders);
         return "guest_welcome";
+    }
+
+    @PostMapping(path = "/bj")
+    @ResponseBody
+    public String requireBJ(Integer id) {
+        List<Order> orders = orderService.listOrder(Order.builder().id(id).build());
+        if (orders.size() != 1) return "无订单";
+        Order order = orders.get(0);
+        if (order.getStatus() != 0) return "未入住";
+        roomService.updateRoom(Room.builder().id(order.getRoomId()).clean(0).build());
+        return "成功";
     }
 }
