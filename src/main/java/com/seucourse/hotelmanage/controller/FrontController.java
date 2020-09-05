@@ -1,12 +1,14 @@
 package com.seucourse.hotelmanage.controller;
 
-import com.seucourse.hotelmanage.entity.*;
-import com.seucourse.hotelmanage.mapper.ConflictMapper;
-import com.seucourse.hotelmanage.mapper.OrderMapper;
+import com.seucourse.hotelmanage.entity.Occupy;
+import com.seucourse.hotelmanage.entity.Order;
+import com.seucourse.hotelmanage.entity.Room;
+import com.seucourse.hotelmanage.entity.User;
 import com.seucourse.hotelmanage.service.OccupyService;
 import com.seucourse.hotelmanage.service.OrderService;
 import com.seucourse.hotelmanage.service.RoomService;
 import com.seucourse.hotelmanage.service.UserService;
+import com.seucourse.hotelmanage.util.ModelUtil;
 import com.seucourse.hotelmanage.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping(path="/front")
+@RequestMapping(path = "/front")
 public class FrontController {
 
 
@@ -34,24 +36,25 @@ public class FrontController {
     RoomService roomService;
 
     @GetMapping(path = "/order")
-    public String orderRoom(Model model){
-        model.addAttribute("tab",1);
-        model.addAttribute("roomTypes",roomService.listRoomTypes());
+    public String orderRoom(Model model) {
+        model.addAttribute("tab", 1);
+        model.addAttribute("roomTypes", roomService.listRoomTypes());
         return "front_welcome";
     }
 
     @PostMapping(path = "/addOrder")
-    public @ResponseBody String addOrder(Model model, String roomType, Date startDate, Date endDate){
-        if(TimeUtil.getCurrentDate().after(startDate)) return "预约时间已过";
+    public @ResponseBody
+    String addOrder(Model model, String roomType, Date startDate, Date endDate) {
+        if (TimeUtil.getCurrentDate().after(startDate)) return "预约时间已过";
         if (startDate.after(endDate)) return "退房日期不能早于入住日期";
-        Room room = roomService.getRoomByTypeAndTime(roomType,startDate,endDate);
+        Room room = roomService.getRoomByTypeAndTime(roomType, startDate, endDate);
         System.out.println("预约 type " + roomType);
-        String msg="success";
-        if(null == room){
-            msg="所选时间内无此类型的可用房间!";
+        String msg = "success";
+        if (null == room) {
+            msg = "所选时间内无此类型的可用房间!";
             return msg;
         }
-        Integer userId = ((User)model.getAttribute("curUser")).getId();
+        Integer userId = ModelUtil.getUserFromModel(model).getId();
         Order order = Order.builder().userId(userId)
                 .roomId(room.getId())
                 .startDate(startDate)
@@ -64,67 +67,67 @@ public class FrontController {
     }
 
     @GetMapping(path = "/removeOrder/{orderId}")
-    public @ResponseBody String removeOrder(@PathVariable("orderId") Integer orderId){
-        System.out.println("删除记录"+orderId);
+    public @ResponseBody
+    String removeOrder(@PathVariable("orderId") Integer orderId) {
+        System.out.println("删除记录" + orderId);
 
-        String msg=orderService.deleteOrderByOrderId(orderId);
-        return msg;
+        return orderService.deleteOrderByOrderId(orderId);
     }
 
 
     @GetMapping(path = "/extendOrder/{orderId}")
-    public String extendOrder(Model model,@PathVariable("orderId") Integer orderId){
-        System.out.println("续约"+orderId);
-        Order order=orderService.queryOrderByOrderId(orderId);
+    public String extendOrder(Model model, @PathVariable("orderId") Integer orderId) {
+        System.out.println("续约" + orderId);
+        Order order = orderService.queryOrderByOrderId(orderId);
         System.out.println("查询结束");
         //System.out.println(order);
-        model.addAttribute("order",order);
-        model.addAttribute("tab",3);
+        model.addAttribute("order", order);
+        model.addAttribute("tab", 3);
         return "front_welcome";
     }
 
     @PostMapping(path = "/extendOrder")
-    public @ResponseBody String postExtendOrder(Model model,Integer orderId,Date endDate){
-        System.out.println("续约"+orderId+"endDate=");
+    public @ResponseBody
+    String postExtendOrder(Model model, Integer orderId, Date endDate) {
+        System.out.println("续约" + orderId + "endDate=");
         System.out.println(endDate);
 
-        Order order=orderService.queryOrderByOrderId(orderId);
+        Order order = orderService.queryOrderByOrderId(orderId);
         if (order.getEndDate().after(endDate)) return "只能延后";
-        Date d1 = new Date(order.getEndDate().getTime()+3600*1000*24);
-        Date d2=endDate;
+        Date d1 = new Date(order.getEndDate().getTime() + 3600 * 1000 * 24);
 
-        Room room=roomService.getRoomByCheckTime(order.getRoomId(),d1,d2);
+        Room room = roomService.getRoomByCheckTime(order.getRoomId(), d1, endDate);
 
-        String msg="success";
-        if(null == room){
-            msg="续约失败，未来日期冲突。";
+        String msg = "success";
+        if (null == room) {
+            msg = "续约失败，未来日期冲突。";
             return msg;
         }
 
-        order.setEndDate(d2);
-        orderService.updateOrder(order,d1,d2);
-        return "success";
+        order.setEndDate(endDate);
+        orderService.updateOrder(order, d1, endDate);
+        return msg;
     }
 
     @GetMapping(path = "/showIn")
     public String showGoIn(Model model) {
         model.addAttribute("tab", 12);
-        Order order=Order.builder().startDate(TimeUtil.getCurrentDate()).status(1).build();
-        List<Order> orders=orderService.listOrder(order);
-        model.addAttribute("orderList",orders);
+        Order order = Order.builder().startDate(TimeUtil.getCurrentDate()).status(1).build();
+        List<Order> orders = orderService.listOrder(order);
+        model.addAttribute("orderList", orders);
         return "front_welcome";
     }
 
     @GetMapping(path = "/occupy/{orderId}")
     public String showOccupy(Model model, @PathVariable("orderId") Integer orderId) {
-        model.addAttribute("tab",14);
+        model.addAttribute("tab", 14);
         model.addAttribute("occupy", occupyService.listOccupy(Occupy.builder().orderId(orderId).build()));
         return "front_welcome";
     }
 
     @GetMapping(path = "/in/{orderId}")
     public String toIn(Model model, @PathVariable("orderId") Integer orderId) {
-        model.addAttribute("tab",13);
+        model.addAttribute("tab", 13);
         model.addAttribute("order", orderService.queryOrderByOrderId(orderId));
         return "front_welcome";
     }
@@ -134,9 +137,9 @@ public class FrontController {
     public String doIn(@PathVariable("orderId") Integer orderId,
                        @RequestParam(value = "name[]") String[] name,
                        @RequestParam(value = "certId[]") String[] certId) {
-        if (orderService.updateStatus(orderId, 0) !=0 ) return "出现错误";
+        if (orderService.updateStatus(orderId, 0) != 0) return "出现错误";
         int len = Math.min(name.length, certId.length);
-        for(int i=0;i<len;i++){
+        for (int i = 0; i < len; i++) {
             occupyService.addOccupy(Occupy.builder().orderId(orderId).name(name[i]).certId(certId[i]).build());
         }
         return "success";
@@ -161,9 +164,9 @@ public class FrontController {
     @GetMapping(path = "/showOut")
     public String showOut(Model model) {
         model.addAttribute("tab", 2);
-        Order order=Order.builder().endDate(TimeUtil.getCurrentDate()).status(0).build();
-        List<Order> orders=orderService.listOrder(order);
-        model.addAttribute("orderList",orders);
+        Order order = Order.builder().endDate(TimeUtil.getCurrentDate()).status(0).build();
+        List<Order> orders = orderService.listOrder(order);
+        model.addAttribute("orderList", orders);
         return "front_welcome";
     }
 
@@ -171,42 +174,44 @@ public class FrontController {
     public String showRecList(Model model) {
         model.addAttribute("tab", 2);
 
-        Order order=Order.builder().build();
-        List<Order> orders=orderService.listOrder(order);
+        Order order = Order.builder().build();
+        List<Order> orders = orderService.listOrder(order);
 
-        model.addAttribute("orderList",orders);
+        model.addAttribute("orderList", orders);
 
         return "front_welcome";
     }
 
     @PostMapping("/changePwd")
-    public @ResponseBody String changePwd(Integer userId,String password){
-        System.out.println("修改密码 "+userId+" "+password);
-        User user=User.builder().id(userId).password(password).build();
+    public @ResponseBody
+    String changePwd(Integer userId, String password) {
+        System.out.println("修改密码 " + userId + " " + password);
+        User user = User.builder().id(userId).password(password).build();
         return userService.updateUser(user);
     }
 
     @PostMapping("/deleteUser")
-    public @ResponseBody String deleteUser(Integer userId){
+    public @ResponseBody
+    String deleteUser(Integer userId) {
         return userService.deleteUserByUserId(userId);
     }
 
-    @GetMapping(path="/userManage")
-    public String showUserList(Model model){
+    @GetMapping(path = "/userManage")
+    public String showUserList(Model model) {
 
-        model.addAttribute("tab",4);
+        model.addAttribute("tab", 4);
 
-        User user=User.builder().role(0).build();
-        List<User> users=userService.listUsers(user);
+        User user = User.builder().role(0).build();
+        List<User> users = userService.listUsers(user);
 
-        model.addAttribute("userList",users);
+        model.addAttribute("userList", users);
 
         return "front_welcome";
     }
 
     @GetMapping(path = "/addRoom")
     public String toAddRoom(Model model) {
-        model.addAttribute("tab",23);
+        model.addAttribute("tab", 23);
         return "front_welcome";
     }
 
@@ -220,8 +225,8 @@ public class FrontController {
 
     @GetMapping(path = "/showRoom")
     public String showRooms(Model model) {
-        model.addAttribute("tab",22);
-        model.addAttribute("rooms",roomService.listRoom(Room.builder().build()));
+        model.addAttribute("tab", 22);
+        model.addAttribute("rooms", roomService.listRoom(Room.builder().build()));
         return "front_welcome";
     }
 

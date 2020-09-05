@@ -20,9 +20,9 @@ public class UserController {
 
     @PostMapping(path = "/login")
     public String doLogin(User user, Model model, HttpSession session) {
-        System.out.println("登录用户："+user);
+        System.out.println("登录用户：" + user);
         Integer status = userService.login(user);
-        System.out.println("登录验证结果："+status);
+        System.out.println("登录验证结果：" + status);
         if (status == 0) {
             session.setAttribute("userId", user.getId());
             return "redirect:/" + EnumUtil.getRoleDesc(user.getRole()) + "/";

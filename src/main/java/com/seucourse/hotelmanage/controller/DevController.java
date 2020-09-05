@@ -17,6 +17,7 @@ public class DevController {
     public Date getTime() {
         return TimeUtil.getCurrentDate();
     }
+
     @PostMapping(path = "/time")
     @ResponseBody
     public Date setTime(Integer delta) {

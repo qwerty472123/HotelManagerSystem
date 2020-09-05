@@ -50,13 +50,13 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Room getRoomByCheckTime(Integer id, Date checkStart, Date checkEnd) {
-        return roomMapper.selectRoomByCheckTime(id,checkStart,checkEnd);
+        return roomMapper.selectRoomByCheckTime(id, checkStart, checkEnd);
     }
 
     @Override
     public void deleteRoom(Integer roomId) {
         List<Order> orders = orderService.listOrder(Order.builder().roomId(roomId).build());
-        for(Order order: orders){
+        for (Order order : orders) {
             orderService.deleteOrderByOrderIdForce(order.getId());
         }
         roomMapper.deleteRoom(roomId);

@@ -5,8 +5,6 @@ import com.seucourse.hotelmanage.entity.Order;
 import com.seucourse.hotelmanage.provider.OrderSQLProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
-import org.springframework.jdbc.core.SqlProvider;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -18,7 +16,7 @@ public interface OrderMapper {
     void insertOrder(Order order);
 
     @SelectProvider(type = OrderSQLProvider.class, method = "createSelectSQL")
-    @Results(id="withRoomAndUser",value = {
+    @Results(id = "withRoomAndUser", value = {
             //roomId, userId, startDate, endDate, status
             @Result(id = true, column = "id", property = "id"),
             @Result(column = "roomId", property = "roomId"),
@@ -43,6 +41,6 @@ public interface OrderMapper {
     @Delete("DELETE FROM `order` WHERE userId=#{userId}")
     void deleteOrderByUserId(Integer userId);
 
-    @UpdateProvider(type = OrderSQLProvider.class , method="createUpdateSQL")
+    @UpdateProvider(type = OrderSQLProvider.class, method = "createUpdateSQL")
     void updateOrder(Order order);
 }

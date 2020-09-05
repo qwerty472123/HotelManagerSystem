@@ -1,7 +1,6 @@
 package com.seucourse.hotelmanage.mapper;
 
 import com.seucourse.hotelmanage.entity.Emp;
-import com.seucourse.hotelmanage.entity.User;
 import com.seucourse.hotelmanage.provider.EmpSQLProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
@@ -20,7 +19,7 @@ public interface EmpMapper {
     @Delete("DELETE FROM emp WHERE id = #{id} ")
     void deleteEmp(Integer id);
 
-    @SelectProvider(type = EmpSQLProvider.class,  method = "createSelectSQL")
+    @SelectProvider(type = EmpSQLProvider.class, method = "createSelectSQL")
     @Results(id = "withUsers", value = {
             @Result(id = true, column = "id", property = "id"),
             @Result(column = "userId", property = "userId"),

@@ -1,10 +1,7 @@
 package com.seucourse.hotelmanage.mapper;
 
 import com.seucourse.hotelmanage.entity.Conflict;
-import com.seucourse.hotelmanage.entity.Emp;
 import org.apache.ibatis.annotations.*;
-
-import java.util.List;
 
 @Mapper
 public interface ConflictMapper {

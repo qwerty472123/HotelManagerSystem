@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.Inet4Address;
 import java.util.List;
 
 @Controller
@@ -56,7 +55,7 @@ public class ManagerController {
         return "manager_welcome";
     }
 
-    @PostMapping(path ="/update/{id}")
+    @PostMapping(path = "/update/{id}")
     @ResponseBody
     public String doUpdate(@PathVariable("id") Integer id, Emp emp, User user) {
         List<Emp> emps = empService.listEmps(Emp.builder().id(id).build());

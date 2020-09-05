@@ -1,8 +1,5 @@
 package com.seucourse.hotelmanage.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class EnumUtil {
     public static String getRoleDesc(Integer id) {
         switch (id) {
@@ -18,6 +15,7 @@ public class EnumUtil {
                 return "error";
         }
     }
+
     public static String getRoleDescCN(Integer id) {
         switch (id) {
             case 0:
@@ -32,6 +30,7 @@ public class EnumUtil {
                 return "未知";
         }
     }
+
     public static String getOrderStatusCN(Integer id) {
         switch (id) {
             case 0:
@@ -44,6 +43,7 @@ public class EnumUtil {
                 return "未知";
         }
     }
+
     public static String getGenderDescCN(Integer id) {
         switch (id) {
             case 0:

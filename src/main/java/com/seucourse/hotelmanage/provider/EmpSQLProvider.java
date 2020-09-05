@@ -4,11 +4,11 @@ import com.seucourse.hotelmanage.entity.Emp;
 import org.apache.ibatis.jdbc.SQL;
 
 public class EmpSQLProvider {
-    public String createUpdateSQL(Emp emp){
+    public String createUpdateSQL(Emp emp) {
         // userid, hiredate, birthday, gender, phone
-        return new SQL(){{
+        return new SQL() {{
             UPDATE("emp");
-            if (null != emp.getUserId()){
+            if (null != emp.getUserId()) {
                 SET("userid = #{userId}");
             }
             if (null != emp.getBirthday()) {
@@ -27,14 +27,14 @@ public class EmpSQLProvider {
         }}.toString();
     }
 
-    public String createSelectSQL(Emp emp){
-        return new SQL(){{
+    public String createSelectSQL(Emp emp) {
+        return new SQL() {{
             SELECT("id, userId, hireDate, birthday, gender, phone");
             FROM("emp");
-            if (null != emp.getId()){
+            if (null != emp.getId()) {
                 WHERE("id = #{id}");
             }
-            if (null != emp.getUserId()){
+            if (null != emp.getUserId()) {
                 WHERE("userid = #{userId}");
             }
             if (null != emp.getBirthday()) {

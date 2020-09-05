@@ -1,9 +1,6 @@
 package com.seucourse.hotelmanage.controller;
 
-import com.seucourse.hotelmanage.entity.Order;
 import com.seucourse.hotelmanage.entity.Room;
-import com.seucourse.hotelmanage.entity.User;
-import com.seucourse.hotelmanage.service.OrderService;
 import com.seucourse.hotelmanage.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +26,7 @@ public class BackController {
         model.addAttribute("rooms", rooms);
         return "back_welcome";
     }
+
     @GetMapping(path = "/only_required")
     public String showRoomOnly(Model model) {
         Room room = Room.builder().clean(0).build();
@@ -37,10 +35,11 @@ public class BackController {
         model.addAttribute("rooms", rooms);
         return "back_welcome";
     }
+
     @GetMapping(path = "/setClean/{roomId}")
     public @ResponseBody
-    String setRoomInfo(@PathVariable("roomId") Integer roomId){
-        try{
+    String setRoomInfo(@PathVariable("roomId") Integer roomId) {
+        try {
             roomService.updateRoom(Room.builder().id(roomId).clean(1).build());
             return "success";
         } catch (Exception err) {

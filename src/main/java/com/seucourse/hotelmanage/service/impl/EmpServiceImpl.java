@@ -22,7 +22,7 @@ public class EmpServiceImpl implements EmpService {
     private UserMapper userMapper;
 
     @Override
-    public Integer addEmp(Emp emp){
+    public Integer addEmp(Emp emp) {
         User user = emp.getUser();
         Integer status = userService.register(user);
         if (status != 0) return status;

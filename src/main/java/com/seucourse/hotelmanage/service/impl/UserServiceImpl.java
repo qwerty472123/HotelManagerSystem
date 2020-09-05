@@ -2,13 +2,10 @@ package com.seucourse.hotelmanage.service.impl;
 
 import com.seucourse.hotelmanage.entity.Order;
 import com.seucourse.hotelmanage.entity.User;
-import com.seucourse.hotelmanage.mapper.OrderMapper;
 import com.seucourse.hotelmanage.mapper.UserMapper;
-import com.seucourse.hotelmanage.provider.UserSQLProvider;
 import com.seucourse.hotelmanage.service.OrderService;
 import com.seucourse.hotelmanage.service.UserService;
 import com.seucourse.hotelmanage.util.PasswordEncryptUtil;
-import org.apache.ibatis.annotations.SelectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +32,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * register
+     *
      * @param user role must set by server
      * @return status code
      */
@@ -59,7 +57,7 @@ public class UserServiceImpl implements UserService {
     public String updateUser(User user) {
         if (user.getName() != null && user.getName().length() == 0) return "姓名不能为空";
         if (user.getUsername() != null && user.getUsername().length() < 3) return "用户名太短";
-        if(null != user.getPassword() && !user.getPassword().equals("")) {
+        if (null != user.getPassword() && !user.getPassword().equals("")) {
             if (user.getPassword().length() < 3) return "密码太短";
             user.setPassword(PasswordEncryptUtil.encrypt(user.getPassword()));
         }
@@ -70,7 +68,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String deleteUserByUserId(Integer userId) {
         List<Order> orders = orderService.listOrder(Order.builder().userId(userId).build());
-        for(Order order:orders){
+        for (Order order : orders) {
             orderService.deleteOrderByOrderIdForce(order.getId());
         }
         userMapper.deleteUser(userId);

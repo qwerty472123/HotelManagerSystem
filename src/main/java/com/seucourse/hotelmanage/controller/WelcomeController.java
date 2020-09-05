@@ -15,9 +15,9 @@ public class WelcomeController {
     private UserService userService;
 
     @GetMapping(path = "/")
-    public String welcome(HttpSession session){
+    public String welcome(HttpSession session) {
         Integer userId = (Integer) session.getAttribute("userId");
-        if(userId != null) {
+        if (userId != null) {
             User user = userService.getUser(userId);
             if (user != null) {
                 return "redirect:/" + EnumUtil.getRoleDesc(user.getRole()) + "/";

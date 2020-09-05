@@ -4,7 +4,6 @@ import com.seucourse.hotelmanage.entity.User;
 import com.seucourse.hotelmanage.service.UserService;
 import com.seucourse.hotelmanage.util.EnumUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,7 +20,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();
         Integer userId = (Integer) session.getAttribute("userId");
-        if(userId != null) {
+        if (userId != null) {
             User user = userService.getUser(userId);
             if (user != null) {
                 System.out.println("path for " + request.getServletPath());
