@@ -28,6 +28,15 @@
             justify-content: center;
             flex-direction: column;
         }
+
+        .lli {
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .lli p {
+            margin: 10px;
+        }
     </style>
 </head>
 <body>
@@ -64,7 +73,7 @@
                           th:action="@{/manager/addWorker}" onsubmit="return addWorker(this)">
 
                         <h5>员工类型</h5>
-                        <div style="flex-direction: column" class="wrapper">
+                        <div class="wrapper lli">
                             <p>
                                 <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect">
                                     <input type="radio" class="mdl-radio__button"
@@ -126,7 +135,7 @@
                         </div>
 
                         <h5>性别</h5>
-                        <div style="flex-direction: column" class="wrapper">
+                        <div class="wrapper lli">
                             <p>
                                 <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect">
                                     <input type="radio" class="mdl-radio__button"
@@ -165,7 +174,7 @@
                           th:action="'/manager/update/' + ${emp.id}" onsubmit="return updateWorker(this)">
 
                         <h5>员工类型</h5>
-                        <div style="flex-direction: column" class="wrapper">
+                        <div class="wrapper lli">
                             <p>
                                 <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect">
                                     <input type="radio" class="mdl-radio__button"
@@ -227,7 +236,7 @@
                         </div>
 
                         <h5>性别</h5>
-                        <div style="flex-direction: column" class="wrapper">
+                        <div class="wrapper lli">
                             <p>
                                 <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect">
                                     <input type="radio" class="mdl-radio__button"

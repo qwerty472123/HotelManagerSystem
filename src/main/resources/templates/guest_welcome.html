@@ -28,6 +28,15 @@
             justify-content: center;
             flex-direction: column;
         }
+
+        .lli {
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .lli p {
+            margin: 10px;
+        }
     </style>
 </head>
 <body>
@@ -65,7 +74,7 @@
                     th:action="@{/guest/addOrder}" onsubmit="return addOrder(this)">
 
                         <h5>房间类型</h5>
-                        <div style="flex-direction: column" class="wrapper">
+                        <div class="wrapper lli">
                             <p th:each="item,status : ${roomTypes}">
                                 <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect"
                                        th:for="'option-'+${status.count}">
