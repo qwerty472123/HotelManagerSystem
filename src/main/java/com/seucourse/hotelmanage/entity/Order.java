@@ -1,5 +1,6 @@
 package com.seucourse.hotelmanage.entity;
 
+import com.seucourse.hotelmanage.util.EnumUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,4 +21,8 @@ public class Order {
 
     private Room room;
     private String username;
+
+    public String getStatusDesc() {
+        return EnumUtil.getOrderStatusCN(status);
+    }
 }
