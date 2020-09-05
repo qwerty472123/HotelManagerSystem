@@ -17,13 +17,21 @@ import java.util.List;
 
 @Controller
 @RequestMapping(path = "/back")
-public class backController {
+public class BackController {
     @Autowired
     private RoomService roomService;
 
     @GetMapping(path = "/")
-    public String showRecList(Model model, Room room) {
-        if (room == null) room = Room.builder().build();
+    public String showRecList(Model model) {
+        Room room = Room.builder().build();
+        model.addAttribute("tab", 1);
+        List<Room> rooms = roomService.listRoom(room);
+        model.addAttribute("rooms", rooms);
+        return "back_welcome";
+    }
+    @GetMapping(path = "/only_required")
+    public String showRoomOnly(Model model) {
+        Room room = Room.builder().clean(0).build();
         model.addAttribute("tab", 1);
         List<Room> rooms = roomService.listRoom(room);
         model.addAttribute("rooms", rooms);
@@ -31,7 +39,7 @@ public class backController {
     }
     @GetMapping(path = "/setClean/{roomId}")
     public @ResponseBody
-    String removeOrder(@PathVariable("roomId") Integer roomId){
+    String setRoomInfo(@PathVariable("roomId") Integer roomId){
         try{
             roomService.updateRoom(Room.builder().id(roomId).clean(1).build());
             return "success";

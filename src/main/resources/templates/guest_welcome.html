@@ -62,7 +62,7 @@
                 <div th:case="1">
 
                     <form style="padding: 20px" class="demo-card-square mdl-card mdl-shadow--2dp" method="post"
-                    th:action="@{/guest/addOrder}" onsubmit="addOrder(this)">
+                    th:action="@{/guest/addOrder}" onsubmit="return addOrder(this)">
 
                         <h5>房间类型</h5>
                         <div style="flex-direction: column" class="wrapper">
@@ -107,6 +107,7 @@
                             <th>序号</th>
                             <th>姓名</th>
                             <th>房间类型</th>
+                            <th>房间号</th>
                             <th>入住时间</th>
                             <th>退房时间</th>
                             <th>当前状态</th>
@@ -118,6 +119,7 @@
                             <td th:text="${status.count}"></td>
                             <td th:text="${item.user.name}"></td>
                             <td th:text="${item.room.type}"></td>
+                            <td th:text="${item.room.name}"></td>
                             <td th:text="${#dates.format(item.getStartDate(),'yyyy-MM-dd')}"></td>
                             <td th:text="${#dates.format(item.getEndDate(),'yyyy-MM-dd')}"></td>
                             <td th:text="${item.statusDesc}"></td>
@@ -199,6 +201,7 @@
                 console.log(error);
             }
         })
+        return false
     }
 </script>
 </body>
