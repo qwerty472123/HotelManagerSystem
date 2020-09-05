@@ -58,6 +58,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public void deleteOrderByOrderIdForce(Integer orderId) {
+        Order order=Order.builder().id(orderId).build();
+        List<Order> orders = orderMapper.selectAllOrders(order);
+        order=orders.get(0);
+        for(long time = order.getStartDate().getTime(); time <= order.getEndDate().getTime(); time += 3600 * 1000 * 24) {
+            conflictMapper.deleteConflict(Conflict.builder().roomId(order.getRoomId()).date(new Date(time)).build());
+        }
+        orderMapper.deleteOrderByOrderId(orderId);
+    }
+
+    @Override
     public Order queryOrderByOrderId(Integer orderId) {
         Order order=Order.builder().id(orderId).build();
         return orderMapper.selectAllOrders(order).get(0);

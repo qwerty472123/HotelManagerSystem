@@ -1,7 +1,9 @@
 package com.seucourse.hotelmanage.service.impl;
 
+import com.seucourse.hotelmanage.entity.Order;
 import com.seucourse.hotelmanage.entity.Room;
 import com.seucourse.hotelmanage.mapper.RoomMapper;
+import com.seucourse.hotelmanage.service.OrderService;
 import com.seucourse.hotelmanage.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,9 @@ public class RoomServiceImpl implements RoomService {
 
     @Autowired
     private RoomMapper roomMapper;
+
+    @Autowired
+    private OrderService orderService;
 
     @Override
     public void addRoom(Room room) {
@@ -50,6 +55,10 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public void deleteRoom(Integer roomId) {
+        List<Order> orders = orderService.listOrder(Order.builder().roomId(roomId).build());
+        for(Order order: orders){
+            orderService.deleteOrderByOrderId(order.getId());
+        }
         roomMapper.deleteRoom(roomId);
     }
 }
