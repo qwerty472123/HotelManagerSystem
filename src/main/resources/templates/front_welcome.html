@@ -128,6 +128,10 @@
                             <td th:text="${#dates.format(item.getEndDate(),'yyyy-MM-dd')}"></td>
                             <td th:text="${item.statusDesc}"></td>
                             <td>
+                                <button th:if="${item.status != 1}"
+                                        class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
+                                        th:onclick="|location.href='/front/occupy/'+(${item.getId()})|">查看入住信息
+                                </button>
                                 <button th:if="${item.status == 1}"
                                         class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
                                         th:onclick="|removeOrder(${item.getId()})|">取消预约
@@ -135,10 +139,15 @@
                                 <a th:if="${item.status == 0}"
                                    class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
                                    th:href="@{'/guest/extendOrder/'+${item.id}}">续约</a>
+                                <button  th:if="${item.status == 0}" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect"
+                                         th:onclick="|toGoOut(${item.getId()})|">退房</button>
                             </td>
                         </tr>
                         </tbody>
                     </table>
+                    <script type="text/javascript">
+                        function toGoOut
+                    </script>
                 </div>
                 <div th:case="14">
                     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
