@@ -24,7 +24,7 @@ public class BackController {
         model.addAttribute("tab", 1);
         List<Room> rooms = roomService.listRoom(room);
         model.addAttribute("rooms", rooms);
-        return "back_welcome";
+        return "back_operation";
     }
 
     @GetMapping(path = "/only_required")
@@ -33,7 +33,7 @@ public class BackController {
         model.addAttribute("tab", 1);
         List<Room> rooms = roomService.listRoom(room);
         model.addAttribute("rooms", rooms);
-        return "back_welcome";
+        return "back_operation";
     }
 
     @GetMapping(path = "/setClean/{roomId}")

@@ -39,7 +39,7 @@ public class FrontController {
     public String orderRoom(Model model) {
         model.addAttribute("tab", 1);
         model.addAttribute("roomTypes", roomService.listRoomTypes());
-        return "front_welcome";
+        return "front_operation";
     }
 
     @PostMapping(path = "/addOrder")
@@ -83,7 +83,7 @@ public class FrontController {
         //System.out.println(order);
         model.addAttribute("order", order);
         model.addAttribute("tab", 3);
-        return "front_welcome";
+        return "front_operation";
     }
 
     @PostMapping(path = "/extendOrder")
@@ -115,21 +115,21 @@ public class FrontController {
         Order order = Order.builder().startDate(TimeUtil.getCurrentDate()).status(1).build();
         List<Order> orders = orderService.listOrder(order);
         model.addAttribute("orderList", orders);
-        return "front_welcome";
+        return "front_operation";
     }
 
     @GetMapping(path = "/occupy/{orderId}")
     public String showOccupy(Model model, @PathVariable("orderId") Integer orderId) {
         model.addAttribute("tab", 14);
         model.addAttribute("occupy", occupyService.listOccupy(Occupy.builder().orderId(orderId).build()));
-        return "front_welcome";
+        return "front_operation";
     }
 
     @GetMapping(path = "/in/{orderId}")
     public String toIn(Model model, @PathVariable("orderId") Integer orderId) {
         model.addAttribute("tab", 13);
         model.addAttribute("order", orderService.queryOrderByOrderId(orderId));
-        return "front_welcome";
+        return "front_operation";
     }
 
     @PostMapping(path = "/in/{orderId}")
@@ -167,7 +167,7 @@ public class FrontController {
         Order order = Order.builder().endDate(TimeUtil.getCurrentDate()).status(0).build();
         List<Order> orders = orderService.listOrder(order);
         model.addAttribute("orderList", orders);
-        return "front_welcome";
+        return "front_operation";
     }
 
     @GetMapping(path = "/")
@@ -179,7 +179,7 @@ public class FrontController {
 
         model.addAttribute("orderList", orders);
 
-        return "front_welcome";
+        return "front_operation";
     }
 
     @PostMapping("/changePwd")
@@ -206,13 +206,13 @@ public class FrontController {
 
         model.addAttribute("userList", users);
 
-        return "front_welcome";
+        return "front_operation";
     }
 
     @GetMapping(path = "/addRoom")
     public String toAddRoom(Model model) {
         model.addAttribute("tab", 23);
-        return "front_welcome";
+        return "front_operation";
     }
 
     @PostMapping(path = "/addRoom")
@@ -227,7 +227,7 @@ public class FrontController {
     public String showRooms(Model model) {
         model.addAttribute("tab", 22);
         model.addAttribute("rooms", roomService.listRoom(Room.builder().build()));
-        return "front_welcome";
+        return "front_operation";
     }
 
     @PostMapping(path = "/bj")

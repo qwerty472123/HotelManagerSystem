@@ -17,19 +17,16 @@ public class ManagerController {
     @Autowired
     private EmpService empService;
 
-    @Autowired
-    private UserService userService;
-
     @GetMapping(path = "/")
     public String welcome(Model model) {
         model.addAttribute("tab", 0);
-        return "manager_welcome";
+        return "manager_operation";
     }
 
     @GetMapping(path = "/addWorker")
     public String preAddWorker(Model model) {
         model.addAttribute("tab", 2);
-        return "manager_welcome";
+        return "manager_operation";
     }
 
     @PostMapping(path = "/addWorker")
@@ -52,7 +49,7 @@ public class ManagerController {
         Emp emp = emps.get(0);
         model.addAttribute("tab", 3);
         model.addAttribute("emp", emp);
-        return "manager_welcome";
+        return "manager_operation";
     }
 
     @PostMapping(path = "/update/{id}")
@@ -72,6 +69,6 @@ public class ManagerController {
     public String showList(Model model) {
         model.addAttribute("tab", 1);
         model.addAttribute("emps", empService.listEmps(Emp.builder().build()));
-        return "manager_welcome";
+        return "manager_operation";
     }
 }

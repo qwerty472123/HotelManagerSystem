@@ -49,14 +49,14 @@ public class GuestController {
     @GetMapping(path = "/")
     public String welcome(Model model) {
         model.addAttribute("tab", 0);
-        return "guest_welcome";
+        return "guest_operation";
     }
 
     @GetMapping(path = "/order")
     public String orderRoom(Model model) {
         model.addAttribute("tab", 1);
         model.addAttribute("roomTypes", roomService.listRoomTypes());
-        return "guest_welcome";
+        return "guest_operation";
     }
 
     @PostMapping(path = "/addOrder")
@@ -101,7 +101,7 @@ public class GuestController {
         System.out.println("查询结束");
         model.addAttribute("order", order);
         model.addAttribute("tab", 3);
-        return "guest_welcome";
+        return "guest_operation";
     }
 
     @PostMapping(path = "/extendOrder")
@@ -133,7 +133,7 @@ public class GuestController {
         model.addAttribute("tab", 2);
         List<Order> orders = orderService.queryOrdersByUserId(user.getId());
         model.addAttribute("orderList", orders);
-        return "guest_welcome";
+        return "guest_operation";
     }
 
     @PostMapping(path = "/bj")
