@@ -4,10 +4,15 @@ import com.seucourse.hotelmanage.entity.User;
 import com.seucourse.hotelmanage.provider.UserSQLProvider;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface UserMapper {
     @SelectProvider(type = UserSQLProvider.class, method = "createSelectSQL")
     User selectUser(User user);
+
+    @SelectProvider(type = UserSQLProvider.class, method = "createSelectSQL")
+    List<User> selectUsers(User user);
 
     @Delete("DELETE FROM user WHERE id = #{id}")
     void deleteUser(User user);

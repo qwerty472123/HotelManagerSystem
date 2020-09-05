@@ -2,10 +2,14 @@ package com.seucourse.hotelmanage.service.impl;
 
 import com.seucourse.hotelmanage.entity.User;
 import com.seucourse.hotelmanage.mapper.UserMapper;
+import com.seucourse.hotelmanage.provider.UserSQLProvider;
 import com.seucourse.hotelmanage.service.UserService;
 import com.seucourse.hotelmanage.util.PasswordEncryptUtil;
+import org.apache.ibatis.annotations.SelectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -54,5 +58,10 @@ public class UserServiceImpl implements UserService {
         }
         userMapper.updateUser(user);
         return "success";
+    }
+
+    @Override
+    public List<User> listUsers(User user) {
+        return userMapper.selectUsers(user);
     }
 }
