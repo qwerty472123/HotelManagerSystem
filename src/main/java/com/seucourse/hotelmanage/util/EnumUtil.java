@@ -1,5 +1,8 @@
 package com.seucourse.hotelmanage.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EnumUtil {
     public static String getRoleDesc(Integer id) {
         switch (id) {
