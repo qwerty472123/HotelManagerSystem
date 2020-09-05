@@ -159,6 +159,108 @@
                         </div>
                     </form>
                 </div>
+
+                <div th:case="3" style="    display: flex; justify-content: center;">
+                    <form style="padding: 20px" class="demo-card-square mdl-card mdl-shadow--2dp" method="post"
+                          th:action="@{/manager/addWorker}" onsubmit="return updateWorker(this)">
+
+                        <h5>员工类型</h5>
+                        <div style="flex-direction: column" class="wrapper">
+                            <p>
+                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect">
+                                    <input type="radio" class="mdl-radio__button"
+                                           name="role" value="1" required for="uu1" th:checked="${emp.user.role == 1}">
+                                    <span class="mdl-radio__label" id="uu1">前台</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect">
+                                    <input type="radio" class="mdl-radio__button"
+                                           name="role" value="2" required for="uu2" th:checked="${emp.user.role == 2}">
+                                    <span class="mdl-radio__label" id="uu2">后勤</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect">
+                                    <input type="radio" class="mdl-radio__button"
+                                           name="role" value="3" required for="uu3" th:checked="${emp.user.role == 3}">
+                                    <span class="mdl-radio__label" id="uu3">经理</span>
+                                </label>
+                            </p>
+                        </div>
+
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <h5>用户名</h5>
+                            <input name="username" th:value="${emp.user.username}" class="mdl-textfield__input" type="text" id="sample2" required>
+                            <label class="mdl-textfield__label" for="sample2"></label>
+                        </div>
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <h5>密码(留空不修改)</h5>
+                            <input name="password" value=""  class="mdl-textfield__input" type="password" id="sample3">
+                            <label class="mdl-textfield__label" for="sample3"></label>
+                        </div>
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <h5>员工姓名</h5>
+                            <input name="name" th:value="${emp.user.name}"  class="mdl-textfield__input" type="text" id="sample4" required>
+                            <label class="mdl-textfield__label" for="sample4"></label>
+                        </div>
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <h5>电话</h5>
+                            <input name="phone" th:value="${emp.phone}"  class="mdl-textfield__input" type="text" id="sample9" required>
+                            <label class="mdl-textfield__label" for="sample9"></label>
+                        </div>
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <h5>雇佣日期</h5>
+                            <input name="hireDate" th:value="${#dates.format(emp.hireDate, 'yyyy-MM-dd')}"  class="mdl-textfield__input" type="date" id="sample5" required>
+                            <label class="mdl-textfield__label" for="sample5"></label>
+                        </div>
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <h5>生日</h5>
+                            <input name="birthday" th:value="${#dates.format(emp.birthday, 'yyyy-MM-dd')}"  class="mdl-textfield__input" type="date" id="sample6" required>
+                            <label class="mdl-textfield__label" for="sample6"></label>
+                        </div>
+
+                        <h5>性别</h5>
+                        <div style="flex-direction: column" class="wrapper">
+                            <p>
+                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect">
+                                    <input type="radio" class="mdl-radio__button"
+                                           name="gender" value="0" required for="axn1" th:checked="${emp.gender == 0}">
+                                    <span class="mdl-radio__label" id="axn1">男</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect">
+                                    <input type="radio" class="mdl-radio__button"
+                                           name="gender" value="1" required for="axn2" th:checked="${emp.gender == 1}">
+                                    <span class="mdl-radio__label" id="axn2">女</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect">
+                                    <input type="radio" class="mdl-radio__button"
+                                           name="gender" value="2" required for="axn3" th:checked="${emp.gender != 0 && emp.gender != 1}">
+                                    <span class="mdl-radio__label" id="axn3">未知</span>
+                                </label>
+                            </p>
+                        </div>
+
+                        <!-- Primary-colored flat button -->
+                        <div class="mdl-card__actions " style="display: flex; justify-content: center">
+                            <button type="submit"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
+                                修 &nbsp; 改
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
                 <div th:case="1" >
                     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                         <thead>
@@ -251,6 +353,10 @@
             }
         })
         return false
+    }
+
+    function toUpdate(id){
+        location.href="/manager/update/"  +id;
     }
 </script>
 </body>

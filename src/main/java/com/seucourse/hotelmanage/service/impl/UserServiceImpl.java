@@ -43,4 +43,16 @@ public class UserServiceImpl implements UserService {
     public User getUser(Integer userId) {
         return userMapper.selectUser(User.builder().id(userId).build());
     }
+
+    @Override
+    public String updateUser(User user) {
+        if (user.getName() == null || user.getName().length() == 0) return "姓名不能为空";
+        if (user.getUsername() == null || user.getUsername().length() < 3) return "用户名太短";
+        if (user.getPassword() != null && user.getPassword().length() < 3) return "密码太短";
+        if(null != user.getPassword() && !user.getPassword().equals("")) {
+            user.setPassword(PasswordEncryptUtil.encrypt(user.getPassword()));
+        }
+        userMapper.updateUser(user);
+        return "success";
+    }
 }

@@ -45,4 +45,10 @@ public class EmpServiceImpl implements EmpService {
         empMapper.deleteEmp(id);
         return 0;
     }
+
+    @Override
+    public String updateEmp(Emp emp) {
+        empMapper.updateEmp(emp);
+        return userService.updateUser(emp.getUser());
+    }
 }
