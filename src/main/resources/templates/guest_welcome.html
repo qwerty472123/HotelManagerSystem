@@ -121,7 +121,7 @@
                             <td th:text="${#dates.format(item.getEndDate(),'yyyy-MM-dd')}"></td>
                             <td th:text="${item.statusDesc}"></td>
                             <td>
-                                <button th:disabled="${item.status != 1}" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect">取消预约</button>
+                                <button  th:disabled="${item.status != 1}" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect" th:onclick="|deleteOrder(${item.getId()})|">取消预约</button>
                             </td>
                         </tr>
                         </tbody>
@@ -148,16 +148,6 @@
             message: text
         });
     }
-
-    //Material dialog
-    var dialog = document.querySelector('dialog');
-    if (! dialog.showModal) {
-        dialogPolyfill.registerDialog(dialog);
-    }
-    dialog.querySelector('.close').addEventListener('click', function() {
-        dialog.close();
-    });
-    //Material dialog
 
     function addOrder(){
         postData={

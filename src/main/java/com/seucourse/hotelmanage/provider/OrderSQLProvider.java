@@ -6,8 +6,11 @@ import org.apache.ibatis.jdbc.SQL;
 public class OrderSQLProvider {
     public String createSelectSQL(Order order){
         return new SQL(){{
-            SELECT("roomId, userId, startDate, endDate, status");
+            SELECT("id, roomId, userId, startDate, endDate, status");
             FROM("`order`");
+            if (null !=order.getId()){
+                WHERE("id = #{id}");
+            }
             if (null != order.getRoomId()){
                 WHERE("roomId = #{roomId}");
             }
@@ -17,6 +20,7 @@ public class OrderSQLProvider {
             if (null != order.getStatus()){
                 WHERE("status = #{status}");
             }
+            ORDER_BY("status, startDate");
         }}.toString();
     }
 }

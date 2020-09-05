@@ -9,10 +9,7 @@ import com.seucourse.hotelmanage.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
@@ -78,6 +75,14 @@ public class GuestController {
                 .build();
         orderService.insertOrder(order);
 
+        return msg;
+    }
+
+    @GetMapping(path = "/removeOrder/{orderId}")
+    public @ResponseBody String removeOrder(@PathVariable("orderId") Integer orderId){
+        System.out.println("删除记录"+orderId);
+
+        String msg=orderService.deleteOrderByOrderId(orderId);
         return msg;
     }
 

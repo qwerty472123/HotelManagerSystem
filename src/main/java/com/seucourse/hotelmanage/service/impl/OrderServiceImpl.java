@@ -34,4 +34,18 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.insertOrder(order);
     }
 
+    @Override
+    public String deleteOrderByOrderId(Integer orderId) {
+        String msg = "该预约已生效或过期，无法取消预约";
+        Order order=Order.builder().id(orderId).build();
+        List<Order> orders = orderMapper.selectAllOrders(order);
+        if(orders.get(0).getStatus()!=1){
+            return msg;
+        }
+        orderMapper.deleteOrderByOrderId(orderId);
+        msg="成功取消预约！";
+        return msg;
+    }
+
+
 }
