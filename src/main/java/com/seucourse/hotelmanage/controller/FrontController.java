@@ -107,6 +107,18 @@ public class FrontController {
         return "front_welcome";
     }
 
+    @PostMapping("/changePwd")
+    public @ResponseBody String changePwd(Integer userId,String password){
+        System.out.println("修改密码 "+userId+" "+password);
+        User user=User.builder().id(userId).password(password).build();
+        return userService.updateUser(user);
+    }
+
+    @PostMapping("/deleteUser")
+    public @ResponseBody String deleteUser(Integer userId){
+        return userService.deleteUserByUserId(userId);
+    }
+
     @GetMapping(path="/userManage")
     public String showUserList(Model model){
 

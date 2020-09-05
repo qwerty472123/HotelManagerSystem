@@ -15,7 +15,7 @@ public interface UserMapper {
     List<User> selectUsers(User user);
 
     @Delete("DELETE FROM user WHERE id = #{id}")
-    void deleteUser(User user);
+    void deleteUser(Integer id);
 
     @Select("SELECT id, username, password, role, name FROM user WHERE id = #{userId} ")
     User selectUserByUserId(Integer userId);

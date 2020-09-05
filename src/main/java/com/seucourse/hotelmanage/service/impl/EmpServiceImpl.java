@@ -41,7 +41,7 @@ public class EmpServiceImpl implements EmpService {
         List<Emp> emps = empMapper.selectEmp(Emp.builder().id(id).build());
         if (emps.size() != 1) return -1;
         Emp emp = emps.get(0);
-        userMapper.deleteUser(User.builder().id(emp.getUserId()).build());
+        userMapper.deleteUser(emp.getUserId());
         empMapper.deleteEmp(id);
         return 0;
     }

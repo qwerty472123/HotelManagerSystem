@@ -11,4 +11,5 @@ public interface UserService {
     List<User> listUsers(User user);
 
     String updateUser(User user);
+    String deleteUserByUserId(Integer userId);
 }

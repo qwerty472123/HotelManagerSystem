@@ -61,6 +61,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String deleteUserByUserId(Integer userId) {
+        userMapper.deleteUser(userId);
+        return "success";
+    }
+
+    @Override
     public List<User> listUsers(User user) {
         return userMapper.selectUsers(user);
     }

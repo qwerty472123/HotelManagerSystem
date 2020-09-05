@@ -329,7 +329,7 @@
                     <dialog id="changePwdDlg" class="mdl-dialog">
                         <h4 class="mdl-dialog__title">修改密码</h4>
                         <div class="mdl-dialog__content">
-                            <p id="dlgMsg">
+                            <p id="pwdMsg">
 
                             </p>
 
@@ -343,13 +343,33 @@
                             <button type="button" class="mdl-button close">取消</button>
                         </div>
                     </dialog>
+                    <dialog id="deleteUserDlg" class="mdl-dialog">
+                        <h4 class="mdl-dialog__title">删除用户</h4>
+                        <div class="mdl-dialog__content">
+                            <p id="delMsg">
+
+                            </p>
+                        </div>
+                        <div class="mdl-dialog__actions">
+                            <button type="button" class="mdl-button" onclick="deleteUser()">确定</button>
+                            <button type="button" class="mdl-button close">取消</button>
+                        </div>
+                    </dialog>
                     <script type="text/javascript">
-                        var dialog = document.querySelector('#changePwdDlg');
-                        if (!dialog.showModal) {
-                            dialogPolyfill.registerDialog(dialog);
+                        var pwdDlg = document.querySelector('#changePwdDlg');
+                        if (!pwdDlg.showModal) {
+                            dialogPolyfill.registerDialog(pwdDlg);
                         }
-                        dialog.querySelector('.close').addEventListener('click', function () {
-                            dialog.close();
+                        pwdDlg.querySelector('.close').addEventListener('click', function () {
+                            pwdDlg.close();
+                        });
+
+                        var delDlg = document.querySelector('#deleteUserDlg');
+                        if (!delDlg.showModal) {
+                            dialogPolyfill.registerDialog(delDlg);
+                        }
+                        delDlg.querySelector('.close').addEventListener('click', function () {
+                            delDlg.close();
                         });
 
                         let userId;
@@ -357,20 +377,73 @@
                         function changePwd(){
                             let newpwd=document.querySelector('#newpwd').value;
                             console.log('用户'+userId+'新密码'+newpwd);
+                            $.ajax({
+                                url: '/front/changePwd',
+                                type: 'post',
+                                data: {
+                                    userId: userId,
+                                    password: newpwd
+                                },
+                                success: function (data) {
+                                    console.log(data);
+                                    if (data === "success") {
+                                        showSnackBar("密码更改成功！");
+                                        pwdDlg.close();
+                                        return;
+                                    }
+                                    showSnackBar(data);
+                                    //document.querySelector("#dlgMsg").innerHTML=data;
+                                },
+                                error: function (error) {  //请求失败之后，打印错误信息
+                                    showSnackBar("请求出错");
+                                    console.log(error);
+                                }
+                            })
+                        }
 
-                            $.ajax(
-
-                            )
-
-
+                        function deleteUser(){
+                            console.log('删除用户'+userId);
+                            $.ajax({
+                                url: '/front/deleteUser',
+                                type: 'post',
+                                data: {
+                                    userId: userId
+                                },
+                                success: function (data) {
+                                    console.log(data);
+                                    if (data === "success") {
+                                        showSnackBar("删除用户成功!");
+                                        setTimeout(function () {
+                                            location.href = "/front/userManage"
+                                        }, 1000);
+                                        delDlg.close();
+                                        return;
+                                    }
+                                    showSnackBar(data);
+                                    //document.querySelector("#dlgMsg").innerHTML=data;
+                                },
+                                error: function (error) {  //请求失败之后，打印错误信息
+                                    showSnackBar("请求出错");
+                                    console.log(error);
+                                }
+                            })
                         }
 
                         function toUpdate(uid) {
                             userId=uid;
                             username=document.querySelector('#username'+uid).innerHTML;
-                            document.querySelector('#dlgMsg').innerHTML='正在为用户'+username+'修改密码...';
+                            document.querySelector('#pwdMsg').innerHTML='正在为用户'+username+'修改密码...';
+                            document.querySelector('.mdl-dialog__title').innerHTML='修改密码';
                             document.querySelector('#newpwd').value=''
-                            dialog.showModal();
+                            pwdDlg.showModal();
+                        }
+
+                        function toDelete(uid){
+                            userId=uid;
+                            username=document.querySelector('#username'+uid).innerHTML;
+                            document.querySelector('.mdl-dialog__title').innerHTML='删除用户';
+                            document.querySelector('#delMsg').innerHTML='你确认要删除用户'+username+'?';
+                            delDlg.showModal();
                         }
                     </script>
                 </div>
